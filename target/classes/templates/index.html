@@ -1,11 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Strona Główna</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <script src="/js/script.js"></script>
+
+  <title>Portfolio Filmowe</title>
 </head>
 <body>
-<h1>MOCNY SHIT TU BEDZIE</h1>
-<p>Oskar szybciej z tymi zdjeciami!</p>
+<header class="header">
+  <div class="logo">DIRECTOR</div>
+  <nav class="nav">
+    <a href="#home">Home</a>
+    <a href="#films">Filmy</a>
+    <a href="#about">O mnie</a>
+    <a href="#contact">Kontakt</a>
+  </nav>
+</header>
+
+<section class="section" id="home">
+  <div class="hero">
+    <h1>OSKAR SAWICKI</h1>
+    <p>Reżyser i twórca wizualnych opowieści, które zostają w pamięci.</p>
+  </div>
+</section>
+
+<section class="section" id="films">
+  <div class="films">
+    <div class="film">
+      <div class="film-info">
+        <h2 class="film-title">Poza Czasem</h2>
+        <p class="film-desc">Film eksplorujący relacje międzyludzkie w kontekście upływającego czasu. Czy miłość może przetrwać próbę czasu i odległości?</p>
+        <a href="#" class="watch-btn">Zobacz film</a>
+      </div>
+      <div class="film-image">
+        <img src="/api/placeholder/600/350" alt="Film: Poza Czasem" />
+      </div>
+    </div>
+
+    <div class="film">
+      <div class="film-info">
+        <h2 class="film-title">Cisza</h2>
+        <p class="film-desc">Nagrodzony krótki metraż o człowieku, który odkrywa siłę ciszy w świecie pełnym hałasu. Historia o odnajdywaniu wewnętrznego spokoju.</p>
+        <a href="#" class="watch-btn">Zobacz film</a>
+      </div>
+      <div class="film-image">
+        <img src="/api/placeholder/600/350" alt="Film: Cisza" />
+      </div>
+    </div>
+
+    <div class="film">
+      <div class="film-info">
+        <h2 class="film-title">Ostatni Dzień</h2>
+        <p class="film-desc">Dramat psychologiczny przedstawiający ostatnie 24 godziny życia głównego bohatera, który musi zmierzyć się z własnymi wyborami i konsekwencjami.</p>
+        <a href="#" class="watch-btn">Zobacz film</a>
+      </div>
+      <div class="film-image">
+        <img src="/api/placeholder/600/350" alt="Film: Ostatni Dzień" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="about">
+    <h2>O MNIE</h2>
+    <div class="about-content">
+      <p>Jestem reżyserem z pasją do opowiadania autentycznych historii, które rezonują z widzami na głębokim, emocjonalnym poziomie. Moja praca skupia się na eksploracji ludzkiej kondycji, relacji międzyludzkich i wewnętrznych konfliktów.</p>
+      <p>Po ukończeniu studiów filmowych w Łódzkiej Szkole Filmowej, wyreżyserowałem szereg nagrodzonych filmów krótkometrażowych oraz pełnometrażowy debiut "Poza Czasem", który zdobył uznanie na międzynarodowych festiwalach.</p>
+    </div>
+    <a href="#contact" class="contact-btn">Skontaktuj się ze mną</a>
+  </div>
+</section>
+
+<footer id="contact">
+  <p>© 2025 Jan Kowalski. Wszelkie prawa zastrzeżone.</p>
+  <div class="social">
+    <a href="#">Instagram</a>
+    <a href="#">Vimeo</a>
+    <a href="#">Facebook</a>
+    <a href="#">LinkedIn</a>
+  </div>
+  <p>kontakt@jankowalski.pl | +48 123 456 789</p>
+</footer>
 </body>
 </html>

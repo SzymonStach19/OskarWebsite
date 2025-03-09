@@ -1,0 +1,285 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+.section {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 0;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: background-color 0.5s;
+}
+
+.header.scrolled {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.nav a:hover {
+    opacity: 1;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+    margin-top: 80px; /* Dodatkowy margines, żeby tekst nie był pod nagłówkiem */
+}
+
+.hero h1 {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.5s, transform 1.5s;
+}
+
+.hero p {
+    font-size: 24px;
+    max-width: 700px;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.5s 0.3s, transform 1.5s 0.3s;
+}
+
+.hero.visible h1,
+.hero.visible p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.films {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.film {
+    display: flex;
+    align-items: center;
+    margin-bottom: 180px; /* Większy odstęp między filmami */
+    opacity: 0;
+    transition: opacity 2.5s;
+    /* Usuwamy domyślny transform, będziemy go definiować dla każdego filmu osobno */
+}
+
+.film.visible {
+    opacity: 1;
+}
+
+/* Standardowa zmiana kierunku dla parzystych */
+.film:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+/* Animacje dla pierwszego filmu - opis od lewej, obraz od prawej */
+.film:nth-child(1) .film-info {
+    transform: translateX(-60px);
+    transition: opacity 2.5s, transform 2.5s;
+}
+
+.film:nth-child(1) .film-image {
+    transform: translateX(60px);
+    transition: opacity 2.5s, transform 2.5s;
+}
+
+.film:nth-child(1).visible .film-info,
+.film:nth-child(1).visible .film-image {
+    transform: translateX(0);
+}
+
+/* Animacje dla drugiego filmu - standardowe od dołu */
+.film:nth-child(2) {
+    transform: translateY(60px);
+    transition: opacity 2.5s, transform 2.5s;
+}
+
+.film:nth-child(2).visible {
+    transform: translateY(0);
+}
+
+/* Animacje dla trzeciego filmu - opis od prawej, obraz od lewej */
+.film:nth-child(3) .film-info {
+    transform: translateX(-60px);
+    transition: opacity 2.5s, transform 2.5s;
+}
+
+.film:nth-child(3) .film-image {
+    transform: translateX(+60px);
+    transition: opacity 2.5s, transform 2.5s;
+}
+
+.film:nth-child(3).visible .film-info,
+.film:nth-child(3).visible .film-image {
+    transform: translateX(0);
+}
+
+.film-info {
+    flex: 1;
+    padding: 0 40px;
+}
+
+.film-title {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.film-desc {
+    font-size: 18px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.film-image {
+    flex: 1;
+    height: 350px;
+    background-color: #222;
+    position: relative;
+    overflow: hidden;
+}
+
+.film-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s ease; /* Wolniejsza animacja powiększenia */
+}
+
+.film:hover .film-image img {
+    transform: scale(1.05);
+}
+
+.watch-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border: 2px solid #fff;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.4s, color 0.4s;
+}
+
+.watch-btn:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.about {
+    max-width: 700px;
+    text-align: center;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 4.0s, transform 4.0s;
+}
+
+.about.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.about h2 {
+    font-size: 48px;
+    margin-bottom: 30px;
+}
+
+.about-content {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.contact-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 18px;
+    text-decoration: none;
+    transition: background-color 0.4s, color 0.4s;
+}
+
+.contact-btn:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+footer {
+    padding: 80px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+footer p {
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.social {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.social a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.social a:hover {
+    opacity: 1;
+}
