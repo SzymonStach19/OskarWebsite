@@ -63,6 +63,17 @@ body {
     opacity: 1;
 }
 
+/* Mobile menu button */
+.menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
 .hero {
     display: flex;
     flex-direction: column;
@@ -70,7 +81,7 @@ body {
     justify-content: center;
     text-align: center;
     padding: 0 20px;
-    margin-top: 80px; /* Dodatkowy margines, żeby tekst nie był pod nagłówkiem */
+    margin-top: 80px;
 }
 
 .hero h1 {
@@ -107,22 +118,19 @@ body {
 .film {
     display: flex;
     align-items: center;
-    margin-bottom: 180px; /* Większy odstęp między filmami */
+    margin-bottom: 180px;
     opacity: 0;
     transition: opacity 2.5s;
-    /* Usuwamy domyślny transform, będziemy go definiować dla każdego filmu osobno */
 }
 
 .film.visible {
     opacity: 1;
 }
 
-/* Standardowa zmiana kierunku dla parzystych */
 .film:nth-child(even) {
     flex-direction: row-reverse;
 }
 
-/* Animacje dla pierwszego filmu - opis od lewej, obraz od prawej */
 .film:nth-child(1) .film-info {
     transform: translateX(-60px);
     transition: opacity 2.5s, transform 2.5s;
@@ -138,7 +146,6 @@ body {
     transform: translateX(0);
 }
 
-/* Animacje dla drugiego filmu - standardowe od dołu */
 .film:nth-child(2) {
     transform: translateY(60px);
     transition: opacity 2.5s, transform 2.5s;
@@ -148,7 +155,6 @@ body {
     transform: translateY(0);
 }
 
-/* Animacje dla trzeciego filmu - opis od prawej, obraz od lewej */
 .film:nth-child(3) .film-info {
     transform: translateX(-60px);
     transition: opacity 2.5s, transform 2.5s;
@@ -192,7 +198,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 1.2s ease; /* Wolniejsza animacja powiększenia */
+    transition: transform 1.2s ease;
 }
 
 .film:hover .film-image img {
@@ -282,4 +288,148 @@ footer p {
 
 .social a:hover {
     opacity: 1;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .header {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.95);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        transition: right 0.5s ease;
+        padding: 20px;
+    }
+
+    .nav.active {
+        right: 0;
+    }
+
+    .nav a {
+        font-size: 20px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+
+    .film {
+        flex-direction: column;
+        margin-bottom: 100px;
+    }
+
+    .film:nth-child(even) {
+        flex-direction: column;
+    }
+
+    .film-info {
+        padding: 0 20px 40px;
+        order: 2;
+    }
+
+    .film-image {
+        width: 100%;
+        order: 1;
+        margin-bottom: 30px;
+    }
+
+    .film-title {
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .film-desc {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .watch-btn {
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .about h2 {
+        font-size: 36px;
+    }
+
+    .about-content {
+        font-size: 16px;
+    }
+
+    .contact-btn {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+
+    .social {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    /* Reset animations for mobile to avoid layout issues */
+    .film:nth-child(1) .film-info,
+    .film:nth-child(1) .film-image,
+    .film:nth-child(2),
+    .film:nth-child(3) .film-info,
+    .film:nth-child(3) .film-image {
+        transform: translateY(30px);
+        transition: opacity 2s, transform 2s;
+    }
+
+    .film:nth-child(1).visible .film-info,
+    .film:nth-child(1).visible .film-image,
+    .film:nth-child(2).visible,
+    .film:nth-child(3).visible .film-info,
+    .film:nth-child(3).visible .film-image {
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .section {
+        padding: 80px 0;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .film-image {
+        height: 250px;
+    }
+
+    .film-title {
+        font-size: 24px;
+    }
+
+    .about h2 {
+        font-size: 28px;
+    }
 }
