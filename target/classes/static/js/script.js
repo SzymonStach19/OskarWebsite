@@ -2,8 +2,10 @@
 function toggleMenu() {
     const nav = document.querySelector('.nav');
     const menuBtn = document.querySelector('.menu-btn');
+    const body = document.body;
 
     nav.classList.toggle('active');
+    body.classList.toggle('menu-open');
 
     // Change button text based on menu state
     if (nav.classList.contains('active')) {
@@ -31,241 +33,235 @@ function setupMobileNav() {
     });
 }
 
-// Header scroll effect
-window.addEventListener('scroll', function() {
+// Enhanced header scroll effect with throttling
+let lastScrollPosition = 0;
+let ticking = false;
+
+function handleScroll() {
+    lastScrollPosition = window.scrollY;
+
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            updateHeaderAndSections(lastScrollPosition);
+            ticking = false;
+        });
+
+        ticking = true;
+    }
+}
+
+function updateHeaderAndSections(scrollPos) {
     const header = document.querySelector('.header');
-    if (window.scrollY > 50) {
+    if (scrollPos > 50) {
         header.classList.add('scrolled');
     } else {
         header.classList.remove('scrolled');
     }
 
-    // Checking element visibility for animations
+    // Check element visibility for animations with improved performance
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
         const rect = section.getBoundingClientRect();
-        // Reduced offset for better visibility
-        const isVisible = (rect.top <= window.innerHeight * 0.8) && (rect.bottom >= 100);
+        // Adjusted threshold for better triggering
+        const isVisible = (rect.top <= window.innerHeight * 0.85) && (rect.bottom >= 50);
 
         if (isVisible) {
             if (section.id === 'home') {
                 const hero = section.querySelector('.hero');
-                if (!hero.classList.contains('visible')) {
+                if (hero && !hero.classList.contains('visible')) {
                     hero.classList.add('visible');
                 }
             } else if (section.id === 'films') {
-                // Check each film individually
+                // Check each film individually with staggered animation
                 const films = section.querySelectorAll('.film');
                 films.forEach((film, index) => {
                     const filmRect = film.getBoundingClientRect();
-                    const isFilmVisible = (filmRect.top <= window.innerHeight * 0.8) && (filmRect.bottom >= 100);
+                    const isFilmVisible = (filmRect.top <= window.innerHeight * 0.85) && (filmRect.bottom >= 50);
 
                     if (isFilmVisible && !film.classList.contains('visible')) {
-                        // Delayed appearance for slower animation
+                        // Staggered appearance for slower animation
                         setTimeout(() => {
                             film.classList.add('visible');
-                        }, 500);
+                        }, 200 * index); // Increased delay between elements
                     }
                 });
             } else if (section.id === 'about') {
                 const about = section.querySelector('.about');
-                if (!about.classList.contains('visible')) {
+                if (about && !about.classList.contains('visible')) {
                     about.classList.add('visible');
                 }
             }
         }
     });
-});
+}
 
-// Function to check if element is in viewport
+// Improved function to check if element is in viewport
 function isElementInViewport(el) {
     const rect = el.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+
+    // More precise calculation with threshold
+    const verticalThreshold = windowHeight * 0.2; // 20% threshold
+    const horizontalThreshold = 0;
+
     return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        rect.top >= -verticalThreshold &&
+        rect.left >= -horizontalThreshold &&
+        rect.bottom <= (windowHeight + verticalThreshold) &&
+        rect.right <= (windowWidth + horizontalThreshold)
     );
 }
 
-// Function to load Vimeo thumbnails
-function loadVimeoThumbnails() {
-    const videoContainers = document.querySelectorAll('.video-container[data-vimeo-id]');
+// Enhanced setup for Vimeo videos with hover-to-play functionality
+function setupVideos() {
+    const videoContainers = document.querySelectorAll('.video-container');
 
     videoContainers.forEach(container => {
         const vimeoId = container.getAttribute('data-vimeo-id');
-        const placeholderDiv = container.querySelector('.video-placeholder');
+        const videoPlaceholder = container.querySelector('.video-placeholder');
+        const vimeoIframe = container.querySelector('.vimeo-video');
 
-        if (vimeoId && placeholderDiv) {
-            // Fetch the thumbnail URL from Vimeo's oEmbed API
-            fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${vimeoId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const img = document.createElement('img');
-                    img.src = data.thumbnail_url;
-                    img.alt = data.title || "Video thumbnail";
-                    img.loading = "lazy";
-                    img.style.width = "100%";
-                    img.style.height = "100%";
-                    img.style.objectFit = "cover";
+        if (!vimeoId) return;
 
-                    placeholderDiv.innerHTML = '';
-                    placeholderDiv.appendChild(img);
-                })
-                .catch(error => {
-                    console.error('Error fetching Vimeo thumbnail:', error);
-                });
-        }
+        // Pre-load and cache thumbnails
+        const thumbnailUrl = `https://vumbnail.com/${vimeoId}.jpg`;
+
+        // Create and load the thumbnail image
+        const thumbnailImage = new Image();
+        thumbnailImage.onload = function() {
+            // Set background image once loaded
+            videoPlaceholder.style.backgroundImage = `url(${thumbnailUrl})`;
+            container.classList.remove('video-loading');
+        };
+
+        thumbnailImage.onerror = function() {
+            // Fallback for thumbnail loading errors
+            console.error('Failed to load thumbnail:', vimeoId);
+            videoPlaceholder.style.backgroundColor = '#111111';
+            container.classList.remove('video-loading');
+        };
+
+        // Start loading the thumbnail
+        container.classList.add('video-loading');
+        thumbnailImage.src = thumbnailUrl;
+
+        // Hover to play and pause functionality
+        container.addEventListener('mouseenter', function() {
+            container.classList.add('video-hover');
+
+            // Get the Vimeo player
+            if (vimeoIframe && vimeoIframe.contentWindow) {
+                vimeoIframe.contentWindow.postMessage('{"method":"play"}', '*');
+            }
+        });
+
+        container.addEventListener('mouseleave', function() {
+            container.classList.remove('video-hover');
+
+            // Pause the video when cursor leaves
+            if (vimeoIframe && vimeoIframe.contentWindow) {
+                vimeoIframe.contentWindow.postMessage('{"method":"pause"}', '*');
+            }
+        });
+
+        // Handle click to open video details
+        container.addEventListener('click', function(e) {
+            const watchBtn = container.closest('.film').querySelector('.watch-btn');
+            if (watchBtn && watchBtn.getAttribute('href')) {
+                e.preventDefault();
+                window.open(watchBtn.getAttribute('href'), '_blank');
+            }
+        });
     });
 }
 
-// Initial animation on main page - delayed for better effect
-document.addEventListener('DOMContentLoaded', function() {
-    // Setup mobile navigation
-    setupMobileNav();
-
-    const hero = document.querySelector('.hero');
-    setTimeout(() => {
-        hero.classList.add('visible');
-    }, 800);
-
-    // Smooth scrolling for navigation links
+// Smooth scrolling for internal links
+function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
 
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                window.scrollTo({
-                    top: target.offsetTop - 80,
-                    behavior: 'smooth'
-                });
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                // Add page transition effect
+                const pageTransition = document.createElement('div');
+                pageTransition.classList.add('page-transition');
+                document.body.appendChild(pageTransition);
+
+                // Trigger transition animation
+                setTimeout(() => {
+                    pageTransition.classList.add('active');
+                }, 50);
+
+                // After transition, scroll to element
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+
+                    // Remove transition overlay
+                    setTimeout(() => {
+                        pageTransition.classList.remove('active');
+                        setTimeout(() => {
+                            pageTransition.remove();
+                        }, 800);
+                    }, 600);
+                }, 600);
             }
         });
     });
-
-    // Handle window resize events
-    window.addEventListener('resize', function() {
-        // Reset menu on window resize
-        const nav = document.querySelector('.nav');
-        const menuBtn = document.querySelector('.menu-btn');
-
-        if (window.innerWidth > 768 && nav.classList.contains('active')) {
-            nav.classList.remove('active');
-            if (menuBtn) {
-                menuBtn.innerHTML = '&#9776;';
-            }
-        }
-    });
-
-    // Load Vimeo thumbnails
-    loadVimeoThumbnails();
-
-    // Setup video hover functionality for all video containers
-    setupVideoHoverEffects();
-});
-
-// Function to set up video hover effects
-function setupVideoHoverEffects() {
-    const videoContainers = document.querySelectorAll('.video-container');
-
-    // Add scroll event listener to check for videos in viewport
-    window.addEventListener('scroll', function() {
-        videoContainers.forEach(container => {
-            if (isElementInViewport(container)) {
-                container.setAttribute('data-in-viewport', 'true');
-            } else {
-                container.setAttribute('data-in-viewport', 'false');
-
-                // If video was playing and scrolled out of view, pause it
-                if (container.classList.contains('video-playing')) {
-                    const videoIframe = container.querySelector('.vimeo-video');
-                    if (videoIframe) {
-                        videoIframe.contentWindow.postMessage(
-                            JSON.stringify({
-                                method: 'pause'
-                            }),
-                            '*'
-                        );
-                        container.classList.remove('video-playing');
-                    }
-                }
-            }
-        });
-    });
-
-    videoContainers.forEach(container => {
-        const videoIframe = container.querySelector('.vimeo-video');
-        const videoOverlay = container.querySelector('.video-overlay');
-
-        if (videoIframe) {
-            // Add data attribute to track viewport visibility
-            container.setAttribute('data-in-viewport', 'false');
-
-            // Initial check if element is in viewport
-            if (isElementInViewport(container)) {
-                container.setAttribute('data-in-viewport', 'true');
-            }
-
-            // Add loading class
-            container.classList.add('video-loading');
-
-            // Listen for iframe load event
-            videoIframe.addEventListener('load', function() {
-                container.classList.remove('video-loading');
-            });
-
-            // Mouse enter handler - only play if in viewport
-            container.addEventListener('mouseenter', function() {
-                if (container.getAttribute('data-in-viewport') === 'true') {
-                    videoIframe.contentWindow.postMessage(
-                        JSON.stringify({
-                            method: 'play'
-                        }),
-                        '*'
-                    );
-                    container.classList.add('video-playing');
-                }
-            });
-
-            container.addEventListener('mouseleave', function() {
-                videoIframe.contentWindow.postMessage(
-                    JSON.stringify({
-                        method: 'pause'
-                    }),
-                    '*'
-                );
-                container.classList.remove('video-playing');
-            });
-
-            // Touch device handler
-            container.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-
-                // Only handle touch if in viewport
-                if (container.getAttribute('data-in-viewport') === 'true') {
-                    if (container.classList.contains('video-playing')) {
-                        videoIframe.contentWindow.postMessage(
-                            JSON.stringify({
-                                method: 'pause'
-                            }),
-                            '*'
-                        );
-                        container.classList.remove('video-playing');
-                    } else {
-                        videoIframe.contentWindow.postMessage(
-                            JSON.stringify({
-                                method: 'play'
-                            }),
-                            '*'
-                        );
-                        container.classList.add('video-playing');
-                    }
-                }
-            });
-        }
-    });
-
-    // Trigger initial scroll check
-    window.dispatchEvent(new Event('scroll'));
 }
+
+// Page loading animation
+function setupPageLoad() {
+    // Create and add page transition element
+    const pageLoadTransition = document.createElement('div');
+    pageLoadTransition.classList.add('page-transition', 'active');
+    document.body.appendChild(pageLoadTransition);
+
+    // Remove transition after page is loaded
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            pageLoadTransition.classList.remove('active');
+            setTimeout(() => {
+                pageLoadTransition.remove();
+                // Trigger hero animation on page load
+                const hero = document.querySelector('.hero');
+                if (hero) {
+                    hero.classList.add('visible');
+                }
+            }, 800);
+        }, 500);
+    });
+}
+
+// Initialize all functionality
+function init() {
+    setupMobileNav();
+    setupVideos();
+    setupSmoothScrolling();
+    setupPageLoad();
+
+    // Add scroll event listener with passive flag for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Initial check for visible elements
+    updateHeaderAndSections(window.scrollY);
+
+    // Handle resize events for responsive adjustments
+    window.addEventListener('resize', function() {
+        // Debounce resize handler
+        clearTimeout(window.resizeTimer);
+        window.resizeTimer = setTimeout(function() {
+            updateHeaderAndSections(window.scrollY);
+        }, 200);
+    });
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', init);
