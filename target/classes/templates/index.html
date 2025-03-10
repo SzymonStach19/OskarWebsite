@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <script src="/js/script.js" defer></script>
 
-  <title>Oskar Sawicki - filmmaker</title>
+  <title>Oskar Sawicki - filmmaker.</title>
 </head>
 <body>
 <header class="header">
@@ -30,13 +30,14 @@
 
 <section class="section" id="films">
   <div class="films">
+    <!-- Updated Film Section -->
     <div class="film">
       <div class="film-info">
         <h2 class="film-title">Zmiany Zmiany - batony z energią!</h2>
         <p class="film-desc">Film eksplorujący relacje międzyludzkie w kontekście upływającego czasu. Czy miłość może przetrwać próbę czasu i odległości?</p>
-        <a href="https://vimeo.com/916144478" class="watch-btn">Zobacz film</a>
+        <a href="https://vimeo.com/916144478" class="watch-btn">Details</a>
       </div>
-      <div class="film-image video-container">
+      <div class="film-image video-container" data-vimeo-id="916144478">
         <div class="video-overlay"></div>
         <iframe
                 src="https://player.vimeo.com/video/916144478?background=1&loop=1&byline=0&title=0&controls=0&portrait=0&transparent=0&muted=1"
@@ -48,9 +49,9 @@
                 allowfullscreen
                 loading="lazy">
         </iframe>
-        <!-- Dodajemy placeholder, który będzie widoczny przed załadowaniem wideo -->
+        <!-- Placeholder div for the thumbnail -->
         <div class="video-placeholder">
-          <img src="/api/placeholder/600/350" alt="Zmiany Zmiany - batony z energią!" loading="lazy" />
+          <!-- Thumbnail will be loaded here by JavaScript -->
         </div>
       </div>
     </div>

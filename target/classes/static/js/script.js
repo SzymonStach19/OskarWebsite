@@ -77,6 +77,48 @@ window.addEventListener('scroll', function() {
     });
 });
 
+// Function to check if element is in viewport
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Function to load Vimeo thumbnails
+function loadVimeoThumbnails() {
+    const videoContainers = document.querySelectorAll('.video-container[data-vimeo-id]');
+
+    videoContainers.forEach(container => {
+        const vimeoId = container.getAttribute('data-vimeo-id');
+        const placeholderDiv = container.querySelector('.video-placeholder');
+
+        if (vimeoId && placeholderDiv) {
+            // Fetch the thumbnail URL from Vimeo's oEmbed API
+            fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${vimeoId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const img = document.createElement('img');
+                    img.src = data.thumbnail_url;
+                    img.alt = data.title || "Video thumbnail";
+                    img.loading = "lazy";
+                    img.style.width = "100%";
+                    img.style.height = "100%";
+                    img.style.objectFit = "cover";
+
+                    placeholderDiv.innerHTML = '';
+                    placeholderDiv.appendChild(img);
+                })
+                .catch(error => {
+                    console.error('Error fetching Vimeo thumbnail:', error);
+                });
+        }
+    });
+}
+
 // Initial animation on main page - delayed for better effect
 document.addEventListener('DOMContentLoaded', function() {
     // Setup mobile navigation
@@ -116,6 +158,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Load Vimeo thumbnails
+    loadVimeoThumbnails();
+
     // Setup video hover functionality for all video containers
     setupVideoHoverEffects();
 });
@@ -124,67 +169,55 @@ document.addEventListener('DOMContentLoaded', function() {
 function setupVideoHoverEffects() {
     const videoContainers = document.querySelectorAll('.video-container');
 
+    // Add scroll event listener to check for videos in viewport
+    window.addEventListener('scroll', function() {
+        videoContainers.forEach(container => {
+            if (isElementInViewport(container)) {
+                container.setAttribute('data-in-viewport', 'true');
+            } else {
+                container.setAttribute('data-in-viewport', 'false');
+
+                // If video was playing and scrolled out of view, pause it
+                if (container.classList.contains('video-playing')) {
+                    const videoIframe = container.querySelector('.vimeo-video');
+                    if (videoIframe) {
+                        videoIframe.contentWindow.postMessage(
+                            JSON.stringify({
+                                method: 'pause'
+                            }),
+                            '*'
+                        );
+                        container.classList.remove('video-playing');
+                    }
+                }
+            }
+        });
+    });
+
     videoContainers.forEach(container => {
         const videoIframe = container.querySelector('.vimeo-video');
         const videoOverlay = container.querySelector('.video-overlay');
 
         if (videoIframe) {
-            // Zamiast zmieniać źródło iframe przy każdym najechaniu,
-            // załadujemy film od razu, ale będziemy kontrolować jego odtwarzanie
-            // za pomocą postMessage API
+            // Add data attribute to track viewport visibility
+            container.setAttribute('data-in-viewport', 'false');
 
-            // Dodajemy klasę, która maskuje iframe podczas ładowania
+            // Initial check if element is in viewport
+            if (isElementInViewport(container)) {
+                container.setAttribute('data-in-viewport', 'true');
+            }
+
+            // Add loading class
             container.classList.add('video-loading');
 
-            // Nasłuchujemy zdarzenia załadowania iframe
+            // Listen for iframe load event
             videoIframe.addEventListener('load', function() {
-                // Usuwamy klasę ładowania po pełnym załadowaniu iframe
                 container.classList.remove('video-loading');
             });
 
-            // Obsługa najechania myszą
+            // Mouse enter handler - only play if in viewport
             container.addEventListener('mouseenter', function() {
-                // Wysyłamy wiadomość do playera Vimeo, aby rozpoczął odtwarzanie
-                videoIframe.contentWindow.postMessage(
-                    JSON.stringify({
-                        method: 'play'
-                    }),
-                    '*'
-                );
-
-                // Pokazujemy wideo
-                container.classList.add('video-playing');
-            });
-
-            container.addEventListener('mouseleave', function() {
-                // Wysyłamy wiadomość do playera Vimeo, aby zatrzymał odtwarzanie
-                videoIframe.contentWindow.postMessage(
-                    JSON.stringify({
-                        method: 'pause'
-                    }),
-                    '*'
-                );
-
-                // Ukrywamy wideo
-                container.classList.remove('video-playing');
-            });
-
-            // Dla urządzeń dotykowych
-            container.addEventListener('touchstart', function(e) {
-                // Zapobiegamy domyślnej akcji przeglądarki
-                e.preventDefault();
-
-                if (container.classList.contains('video-playing')) {
-                    // Zatrzymujemy wideo
-                    videoIframe.contentWindow.postMessage(
-                        JSON.stringify({
-                            method: 'pause'
-                        }),
-                        '*'
-                    );
-                    container.classList.remove('video-playing');
-                } else {
-                    // Uruchamiamy wideo
+                if (container.getAttribute('data-in-viewport') === 'true') {
                     videoIframe.contentWindow.postMessage(
                         JSON.stringify({
                             method: 'play'
@@ -194,6 +227,45 @@ function setupVideoHoverEffects() {
                     container.classList.add('video-playing');
                 }
             });
+
+            container.addEventListener('mouseleave', function() {
+                videoIframe.contentWindow.postMessage(
+                    JSON.stringify({
+                        method: 'pause'
+                    }),
+                    '*'
+                );
+                container.classList.remove('video-playing');
+            });
+
+            // Touch device handler
+            container.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+
+                // Only handle touch if in viewport
+                if (container.getAttribute('data-in-viewport') === 'true') {
+                    if (container.classList.contains('video-playing')) {
+                        videoIframe.contentWindow.postMessage(
+                            JSON.stringify({
+                                method: 'pause'
+                            }),
+                            '*'
+                        );
+                        container.classList.remove('video-playing');
+                    } else {
+                        videoIframe.contentWindow.postMessage(
+                            JSON.stringify({
+                                method: 'play'
+                            }),
+                            '*'
+                        );
+                        container.classList.add('video-playing');
+                    }
+                }
+            });
         }
     });
+
+    // Trigger initial scroll check
+    window.dispatchEvent(new Event('scroll'));
 }

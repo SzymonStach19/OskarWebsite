@@ -178,12 +178,14 @@ body {
 .film-title {
     font-size: 36px;
     margin-bottom: 20px;
+    text-align: left;
 }
 
 .film-desc {
     font-size: 18px;
     margin-bottom: 30px;
     line-height: 1.6;
+    text-align: left;
 }
 
 .film-image {
@@ -250,7 +252,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 5;
+    z-index: 6;
     transition: opacity 0.5s ease;
 }
 
@@ -447,12 +449,12 @@ footer p {
 
     .film-title {
         font-size: 28px;
-        text-align: center;
+        text-align: left;
     }
 
     .film-desc {
         font-size: 16px;
-        text-align: center;
+        text-align: left;
     }
 
     .watch-btn {
