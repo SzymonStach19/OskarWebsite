@@ -205,6 +205,92 @@ body {
     transform: scale(1.05);
 }
 
+/* Video container styles - zaktualizowane */
+.video-container {
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+    background-color: #000;
+    cursor: pointer;
+}
+
+.vimeo-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none; /* Prevents iframe from capturing mouse events initially */
+}
+
+.video-container.video-playing .vimeo-video {
+    opacity: 1;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 0.3s ease;
+}
+
+.video-overlay:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.video-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    transition: opacity 0.5s ease;
+}
+
+.video-container.video-playing .video-placeholder {
+    opacity: 0;
+}
+
+/* Styl dla stanu ładowania */
+.video-container.video-loading .video-placeholder {
+    opacity: 1;
+}
+
+.video-container.video-loading .vimeo-video {
+    opacity: 0;
+}
+
+/* Dodaj ikonę odtwarzania na tle */
+.video-placeholder::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px;
+    opacity: 0.8;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.video-container:hover .video-placeholder::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
 .watch-btn {
     display: inline-block;
     padding: 12px 30px;
@@ -353,6 +439,10 @@ footer p {
         width: 100%;
         order: 1;
         margin-bottom: 30px;
+    }
+
+    .video-container {
+        height: 250px;
     }
 
     .film-title {

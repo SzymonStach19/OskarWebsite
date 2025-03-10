@@ -115,4 +115,85 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    // Setup video hover functionality for all video containers
+    setupVideoHoverEffects();
 });
+
+// Function to set up video hover effects
+function setupVideoHoverEffects() {
+    const videoContainers = document.querySelectorAll('.video-container');
+
+    videoContainers.forEach(container => {
+        const videoIframe = container.querySelector('.vimeo-video');
+        const videoOverlay = container.querySelector('.video-overlay');
+
+        if (videoIframe) {
+            // Zamiast zmieniać źródło iframe przy każdym najechaniu,
+            // załadujemy film od razu, ale będziemy kontrolować jego odtwarzanie
+            // za pomocą postMessage API
+
+            // Dodajemy klasę, która maskuje iframe podczas ładowania
+            container.classList.add('video-loading');
+
+            // Nasłuchujemy zdarzenia załadowania iframe
+            videoIframe.addEventListener('load', function() {
+                // Usuwamy klasę ładowania po pełnym załadowaniu iframe
+                container.classList.remove('video-loading');
+            });
+
+            // Obsługa najechania myszą
+            container.addEventListener('mouseenter', function() {
+                // Wysyłamy wiadomość do playera Vimeo, aby rozpoczął odtwarzanie
+                videoIframe.contentWindow.postMessage(
+                    JSON.stringify({
+                        method: 'play'
+                    }),
+                    '*'
+                );
+
+                // Pokazujemy wideo
+                container.classList.add('video-playing');
+            });
+
+            container.addEventListener('mouseleave', function() {
+                // Wysyłamy wiadomość do playera Vimeo, aby zatrzymał odtwarzanie
+                videoIframe.contentWindow.postMessage(
+                    JSON.stringify({
+                        method: 'pause'
+                    }),
+                    '*'
+                );
+
+                // Ukrywamy wideo
+                container.classList.remove('video-playing');
+            });
+
+            // Dla urządzeń dotykowych
+            container.addEventListener('touchstart', function(e) {
+                // Zapobiegamy domyślnej akcji przeglądarki
+                e.preventDefault();
+
+                if (container.classList.contains('video-playing')) {
+                    // Zatrzymujemy wideo
+                    videoIframe.contentWindow.postMessage(
+                        JSON.stringify({
+                            method: 'pause'
+                        }),
+                        '*'
+                    );
+                    container.classList.remove('video-playing');
+                } else {
+                    // Uruchamiamy wideo
+                    videoIframe.contentWindow.postMessage(
+                        JSON.stringify({
+                            method: 'play'
+                        }),
+                        '*'
+                    );
+                    container.classList.add('video-playing');
+                }
+            });
+        }
+    });
+}

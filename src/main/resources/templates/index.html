@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <script src="/js/script.js" defer></script>
 
-  <title>Portfolio Filmowe</title>
+  <title>Oskar Sawicki - filmmaker</title>
 </head>
 <body>
 <header class="header">
@@ -36,8 +36,22 @@
         <p class="film-desc">Film eksplorujący relacje międzyludzkie w kontekście upływającego czasu. Czy miłość może przetrwać próbę czasu i odległości?</p>
         <a href="https://vimeo.com/916144478" class="watch-btn">Zobacz film</a>
       </div>
-      <div class="film-image">
-        <img src="/api/placeholder/600/350" alt="Film: Poza Czasem" loading="lazy" />
+      <div class="film-image video-container">
+        <div class="video-overlay"></div>
+        <iframe
+                src="https://player.vimeo.com/video/916144478?background=1&loop=1&byline=0&title=0&controls=0&portrait=0&transparent=0&muted=1"
+                class="vimeo-video"
+                width="600"
+                height="350"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen
+                loading="lazy">
+        </iframe>
+        <!-- Dodajemy placeholder, który będzie widoczny przed załadowaniem wideo -->
+        <div class="video-placeholder">
+          <img src="/api/placeholder/600/350" alt="Zmiany Zmiany - batony z energią!" loading="lazy" />
+        </div>
       </div>
     </div>
 
