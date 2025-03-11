@@ -3,91 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portfolio filmowe Oskara Sawickiego - reżysera i twórcy wizualnych opowieści">
-  <link rel="stylesheet" type="text/css" href="/css/style.css">
-  <script src="/js/script.js" defer></script>
-
-  <title>Oskar Sawicki - filmmaker.</title>
+  <title>Oskar Sawicki | FilmMaker</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<header class="header">
-  <div class="logo">DIRECTOR</div>
-  <button class="menu-btn" aria-label="Menu nawigacyjne">&#9776;</button>
-  <nav class="nav">
-    <a href="#home">Home</a>
-    <a href="#films">Filmy</a>
-    <a href="#about">O mnie</a>
-    <a href="#contact">Kontakt</a>
+<!-- Dodana nakładka animacji ładowania -->
+<div class="loading-overlay">
+  <div class="loading-circle"></div>
+</div>
+
+<div class="grid-overlay"></div>
+
+<header>
+  <h1>Oskar Sawicki</h1>
+  <nav>
+    <ul>
+      <li><a href="#director">DIRECTOR</a></li>
+      <li><a href="#dop">DIRECTOR OF PHOTOGRAPHY</a></li>
+      <li><a href="#editor">EDITOR</a></li>
+      <li><a href="#stills">STILLS</a></li>
+    </ul>
   </nav>
 </header>
-
-<section class="section" id="home">
-  <div class="hero">
-    <h1>OSKAR SAWICKI</h1>
-    <p>Reżyser i twórca wizualnych opowieści, które zostają w pamięci.</p>
-  </div>
-</section>
-
-<section class="section" id="films">
-  <div class="films">
-    <!-- Updated Film Section -->
-    <div class="film">
-      <div class="film-info">
-        <h2 class="film-title">Zmiany Zmiany - batony z energią!</h2>
-        <p class="film-desc">Film eksplorujący relacje międzyludzkie w kontekście upływającego czasu. Czy miłość może przetrwać próbę czasu i odległości?</p>
-        <a href="https://vimeo.com/916144478" class="watch-btn">Details</a>
-      </div>
-      <div class="film-image video-container" data-vimeo-id="916144478">
-        <div class="video-overlay"></div>
-        <!-- Update this iframe in your index.html file -->
-        <iframe
-                src="https://player.vimeo.com/video/916144478?background=1&loop=1&byline=0&title=0&controls=0&portrait=0&transparent=0&muted=1&autoplay=0"
-                class="vimeo-video"
-                frameborder="0"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowfullscreen
-                loading="lazy">
-        </iframe>
-        <!-- Placeholder div for the thumbnail -->
-        <div class="video-placeholder">
-          <!-- Thumbnail will be loaded here by JavaScript -->
-        </div>
-      </div>
-    </div>
-
-    <div class="film">
-      <div class="film-info">
-        <h2 class="film-title">Cisza</h2>
-        <p class="film-desc">Nagrodzony krótki metraż o człowieku, który odkrywa siłę ciszy w świecie pełnym hałasu. Historia o odnajdywaniu wewnętrznego spokoju.</p>
-        <a href="#" class="watch-btn">Zobacz film</a>
-      </div>
-      <div class="film-image">
-        <img src="/api/placeholder/600/350" alt="Film: Cisza" loading="lazy" />
-      </div>
-    </div>
-
-    <div class="film">
-      <div class="film-info">
-        <h2 class="film-title">Ostatni Dzień</h2>
-        <p class="film-desc">Dramat psychologiczny przedstawiający ostatnie 24 godziny życia głównego bohatera, który musi zmierzyć się z własnymi wyborami i konsekwencjami.</p>
-        <a href="#" class="watch-btn">Zobacz film</a>
-      </div>
-      <div class="film-image">
-        <img src="/api/placeholder/600/350" alt="Film: Ostatni Dzień" loading="lazy" />
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="about">
-  <div class="about">
-    <h2>O MNIE</h2>
-    <div class="about-content">
-      <p>Chociaż jako mały dzieciak chciał zostać piłkarzem, szybko zakochał się w opowiadaniu historii. Obecnie student Łódzkiej Szkoły Filmowej na wydziale reżyserii (specjalność montaż filmowy), Oskar Sawicki to twórca form wizualnych. Na swoim koncie ma kilkanaście filmów krótkometrażowych, teledysków i reklam. Zawsze szuka nowych sposobów na angażowanie widza i opowiadanie emocjonalnych historii. Uśmiech!</p>
-    </div>
-    <a href="mailto:oskar.sawicky@gmail.com" class="contact-btn">Skontaktuj się ze mną</a>
-  </div>
-</section>
 
 <footer id="contact">
   <p>© 2025 Oskar Sawicki. Wszelkie prawa zastrzeżone.</p>
@@ -97,7 +34,9 @@
     <a href="https://www.facebook.com/profile.php?id=100004816442734">Facebook</a>
     <a href="https://www.youtube.com/OskarSawicki">Youtube</a>
   </div>
-  <p>oskar.sawicky@gmail.com  | +48 798 271 365</p>
+  <p>oskar.sawicky@gmail.com | +48 798 271 365</p>
 </footer>
+
+<script src="/js/script.js"></script>
 </body>
 </html>
