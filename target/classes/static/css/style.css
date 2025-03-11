@@ -5,13 +5,28 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* This ensures the body takes at least the full viewport height */
+    font-family: 'Courier New', monospace; /* Changed to Courier New */
     background-color: #F8F4EA;
     color: #000;
     line-height: 1.8;
     font-size: 1.1rem;
     position: relative;
+    /* Keep the original opacity for animation */
+    opacity: 0;
+}
+
+/* Make sure content area grows to push footer down */
+main {
+    flex: 1;
 }
 
 .grid-overlay {
@@ -21,9 +36,9 @@ body {
     width: 100%;
     height: 100%;
     background-image:
-            linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
-    background-size: 100px 100px;
+            linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 0.75px),
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 0.75px);
+    background-size: 75px 75px;
     pointer-events: none;
     z-index: -1;
 }
@@ -32,10 +47,11 @@ header {
     padding: 2rem 2rem 0 2rem; /* Reduce padding at the bottom */
     text-align: center;
     margin-bottom: 0;
+    width: 100%;
 }
 
 h1 {
-    font-size: 5.5rem; /* Powiększony rozmiar czcionki */
+    font-size: 4.0rem; /* Powiększony rozmiar czcionki */
     font-weight: 300; /* Usunięte pogrubienie */
     letter-spacing: 4px;
     text-transform: uppercase;
@@ -50,6 +66,7 @@ nav {
     align-items: center;
     margin: 0 auto;
     padding: 0;
+    border-bottom:1px solid rgba(0, 0, 0, 0.1) ;
 }
 
 nav ul {
@@ -107,25 +124,24 @@ nav a:hover:after {
     transform: translateY(0);
 }
 
-/* Footer */
+/* Footer - updated styles */
 footer {
     text-align: center;
-    padding: 3rem 1rem;
-    margin-top: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 1rem; /* Reduced padding from 3rem to 1.5rem */
+    margin-top: auto; /* This pushes the footer to the bottom */
 }
 
 footer p {
-    margin: 1rem 0;
-    font-size: 1rem;
+    margin: 0.5rem 0; /* Reduced margin from 1rem to 0.5rem */
+    font-size: 1rem; /* Increased font size for contact info */
     opacity: 0.7;
 }
 
 .social {
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin: 1.5rem 0;
+    gap: 1.5rem; /* Reduced gap from 2rem to 1.5rem */
+    margin: 0.8rem 0; /* Reduced margin from 1.5rem to 0.8rem */
 }
 
 .social a {
@@ -133,10 +149,26 @@ footer p {
     text-decoration: none;
     opacity: 0.7;
     transition: opacity 0.3s ease;
+    font-size: 1rem; /* Increased font size for social links */
 }
 
 .social a:hover {
     opacity: 1;
+}
+
+.copyright {
+    height: 30px; /* Maintained height of 30px */
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px; /* Added padding to center between border and bottom */
+}
+
+.copyright p {
+    margin: 0;
+    font-size: 0.7rem; /* Made copyright text smaller */
+    opacity: 0.5; /* Made it more subtle */
 }
 
 /* Responsywność */
@@ -160,7 +192,7 @@ footer p {
 
     .social {
         flex-wrap: wrap;
-        gap: 1.2rem;
+        gap: 1rem;
     }
 
     .portfolio-container {
@@ -168,15 +200,11 @@ footer p {
     }
 
     footer {
-        padding: 2rem 1rem;
+        padding: 1rem;
     }
 }
 
 /* Animacja ujawniania się strony od dołu */
-body {
-    opacity: 0;
-}
-
 body.animate-in {
     animation: fadeInFromBottom 1.2s ease forwards;
 }
