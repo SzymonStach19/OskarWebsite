@@ -28,28 +28,43 @@ body {
     z-index: -1;
 }
 
-/* Header */
 header {
-    padding: 2rem;
+    padding: 2rem 2rem 0 2rem; /* Reduce padding at the bottom */
     text-align: center;
     margin-bottom: 0;
-    border-bottom: none;
 }
 
 h1 {
-    font-size: 3rem;
-    font-weight: 400;
+    font-size: 5.5rem; /* Powiększony rozmiar czcionki */
+    font-weight: 300; /* Usunięte pogrubienie */
     letter-spacing: 4px;
-    margin-bottom: 2rem;
     text-transform: uppercase;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 1rem; /* Reduced padding at bottom */
+}
+
+nav {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0;
 }
 
 nav ul {
     display: flex;
     justify-content: center;
+    align-items: center;
     list-style: none;
     gap: 2.5rem;
-    padding: 1.5rem 0;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    display: flex;
+    align-items: center;
 }
 
 nav a {
@@ -58,17 +73,20 @@ nav a {
     font-size: 1rem;
     letter-spacing: 1px;
     transition: all 0.3s ease;
-    padding-bottom: 5px;
+    padding: 5px 0;
     position: relative;
+    display: block;
 }
 
+/* Animacja przy najechaniu */
 nav a:after {
     content: '';
     position: absolute;
     width: 0;
     height: 1px;
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #000;
     transition: width 0.3s ease;
 }
@@ -123,13 +141,21 @@ footer p {
 
 /* Responsywność */
 @media (max-width: 768px) {
+    nav {
+        height: auto;
+        padding: 1.5rem 0;
+    }
+
     nav ul {
         flex-direction: column;
         gap: 1.5rem;
+        align-items: center;
     }
 
     h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem; /* Dostosowany rozmiar dla mobilnych urządzeń */
+        padding-bottom: 1.5rem;
+        font-weight: 300;
     }
 
     .social {
@@ -145,7 +171,6 @@ footer p {
         padding: 2rem 1rem;
     }
 }
-/* Dodaj to do istniejącego pliku style.css */
 
 /* Animacja ujawniania się strony od dołu */
 body {
