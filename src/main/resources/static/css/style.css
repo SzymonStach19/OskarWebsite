@@ -13,20 +13,20 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* This ensures the body takes at least the full viewport height */
-    font-family: 'Courier New', monospace; /* Changed to Courier New */
-    background-color: #F8F4EA;
+    min-height: 100vh;
+    font-family: 'Courier New', monospace;
+    background-color: #f4eddd;
     color: #000;
     line-height: 1.8;
     font-size: 1.1rem;
     position: relative;
-    /* Keep the original opacity for animation */
     opacity: 0;
 }
 
 /* Make sure content area grows to push footer down */
 main {
     flex: 1;
+    border-top: none;
 }
 
 .grid-overlay {
@@ -44,21 +44,65 @@ main {
 }
 
 header {
-    padding: 2rem 2rem 0 2rem; /* Reduce padding at the bottom */
+    padding: 1.5rem 2rem 0 2rem;
     text-align: center;
     margin-bottom: 0;
     width: 100%;
 }
 
-h1 {
-    font-size: 4.0rem; /* Powiększony rozmiar czcionki */
-    font-weight: 300; /* Usunięte pogrubienie */
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding-bottom: 1rem; /* Reduced padding at bottom */
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1rem;
+    position: relative;
+    width: 100%; /* Upewnij się, że kontener zajmuje całą szerokość */
 }
 
+h1 {
+    font-size: 4.0rem;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    cursor: pointer;
+    width: 100%; /* Pełna szerokość */
+    padding: 15px 0; /* Równe odstępy od górnego i dolnego bordera */
+    margin: 0; /* Usunięcie marginesów */
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    justify-content: center; /* Wyśrodkowanie ikony */
+    align-items: center;
+}
+
+/* Make the Font Awesome icon thinner */
+.mobile-menu-toggle i {
+    font-size: 18px; /* Mniejszy rozmiar dla cieńszego wyglądu */
+    color: #000;
+    opacity: 0.7; /* Dodanie przejrzystości dla delikatniejszego wyglądu */
+}
+
+/* Animation for mobile menu toggle */
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Desktop Navigation */
 nav {
     height: 100px;
     display: flex;
@@ -66,7 +110,10 @@ nav {
     align-items: center;
     margin: 0 auto;
     padding: 0;
-    border-bottom:1px solid rgba(0, 0, 0, 0.1) ;
+    border-top:1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: height 0.3s ease;
+    width: 100%; /* Upewnij się, że nawigacja zajmuje całą szerokość */
 }
 
 nav ul {
@@ -112,6 +159,93 @@ nav a:hover:after {
     width: 100%;
 }
 
+/* New Mobile Navigation */
+#mobile-nav {
+    display: none;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease;
+}
+
+#mobile-nav.active {
+    display: block;
+    max-height: 300px;
+    padding-bottom: 10px; /* Add padding to prevent about link overlapping border */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#mobile-nav ul {
+    list-style: none;
+    padding: 0.5rem 0;
+}
+
+#mobile-nav li {
+    text-align: center;
+    padding: 0.8rem 0;
+}
+
+#mobile-nav li:last-child {
+    margin-bottom: 5px; /* Add extra margin to the last item (About) */
+}
+
+#mobile-nav a {
+    color: #000;
+    text-decoration: none;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+    padding: 0.3rem 0;
+}
+
+#mobile-nav a:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    transition: width 0.3s ease;
+}
+
+#mobile-nav a.active:after {
+    width: 100%;
+}
+
+/* Video section */
+.video-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 2rem;
+    width: 100%;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    padding-bottom: 42.25%;
+    height: 0;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
 /* Animacje pojawiania się przy przewijaniu */
 .scroll-reveal {
     opacity: 0;
@@ -127,21 +261,21 @@ nav a:hover:after {
 /* Footer - updated styles */
 footer {
     text-align: center;
-    padding: 1.5rem 1rem; /* Reduced padding from 3rem to 1.5rem */
-    margin-top: auto; /* This pushes the footer to the bottom */
+    padding: 1.5rem 1rem;
+    margin-top: auto;
 }
 
 footer p {
-    margin: 0.5rem 0; /* Reduced margin from 1rem to 0.5rem */
-    font-size: 1rem; /* Increased font size for contact info */
+    margin: 0.5rem 0;
+    font-size: 1rem;
     opacity: 0.7;
 }
 
 .social {
     display: flex;
     justify-content: center;
-    gap: 1.5rem; /* Reduced gap from 2rem to 1.5rem */
-    margin: 0.8rem 0; /* Reduced margin from 1.5rem to 0.8rem */
+    gap: 1.5rem;
+    margin: 0.8rem 0;
 }
 
 .social a {
@@ -149,62 +283,101 @@ footer p {
     text-decoration: none;
     opacity: 0.7;
     transition: opacity 0.3s ease;
-    font-size: 1rem; /* Increased font size for social links */
+    font-size: 1rem;
 }
 
 .social a:hover {
     opacity: 1;
 }
 
+.contact-info {
+    font-size: 1rem;
+    margin: 0.8rem 0;
+    opacity: 0.7;
+}
+
+/* Updated link styling for consistency */
+.contact-info a {
+    color: #000;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0.2rem 0;
+    transition: opacity 0.3s ease;
+}
+
+.contact-info a:hover {
+    opacity: 1;
+}
+
 .copyright {
-    height: 30px; /* Maintained height of 30px */
+    height: 30px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 10px; /* Added padding to center between border and bottom */
+    padding-top: 10px;
 }
 
 .copyright p {
     margin: 0;
-    font-size: 0.7rem; /* Made copyright text smaller */
-    opacity: 0.5; /* Made it more subtle */
+    font-size: 0.7rem;
+    opacity: 0.5;
 }
 
 /* Responsywność */
 @media (max-width: 768px) {
-    nav {
-        height: auto;
-        padding: 1.5rem 0;
-    }
-
-    nav ul {
+    .header-container {
         flex-direction: column;
-        gap: 1.5rem;
+        justify-content: center;
         align-items: center;
+        padding-bottom: 0.8rem;
     }
 
     h1 {
-        font-size: 2.8rem; /* Dostosowany rozmiar dla mobilnych urządzeń */
-        padding-bottom: 1.5rem;
-        font-weight: 300;
+        font-size: 1.8rem;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    nav {
+        display: none;
+    }
+
+    .video-section {
+        padding: 1rem;
+        border-top: none;
+    }
+
+    .video-wrapper {
+        padding-bottom: 50%;
+    }
+
+    footer {
+        padding: 1rem 0.5rem;
     }
 
     .social {
         flex-wrap: wrap;
         gap: 1rem;
+        margin: 0.5rem 0;
     }
 
-    .portfolio-container {
-        padding: 2rem 1rem;
+    .contact-info {
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+        word-wrap: break-word;
     }
 
-    footer {
-        padding: 1rem;
+    .copyright {
+        margin-top: 0.5rem;
     }
 }
 
-/* Animacja ujawniania się strony od dołu */
+/* Animation for page reveal */
 body.animate-in {
     animation: fadeInFromBottom 1.2s ease forwards;
 }
@@ -220,7 +393,7 @@ body.animate-in {
     }
 }
 
-/* Animacja dla poszczególnych elementów strony */
+/* Animations for page elements */
 header, footer {
     opacity: 0;
     transform: translateY(50px);
@@ -230,6 +403,40 @@ body.animate-in header {
     animation: fadeInFromBottom 1s ease forwards 0.2s;
 }
 
+body.animate-in #mobile-nav.active {
+    animation: expandNav 0.5s ease forwards;
+}
+
+body.animate-in .video-section {
+    animation: fadeInVideo 1s ease forwards 0.6s;
+}
+
 body.animate-in footer {
-    animation: fadeInFromBottom 1s ease forwards;
+    animation: fadeInFromBottom 1s ease forwards 0.8s;
+}
+
+@keyframes expandNav {
+    from {
+        max-height: 0;
+    }
+    to {
+        max-height: 320px; /* Increased to accommodate padding */
+    }
+}
+
+/* New animation for video */
+@keyframes fadeInVideo {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Active link indicator */
+nav a.active:after, #mobile-nav a.active:after {
+    width: 100%;
 }

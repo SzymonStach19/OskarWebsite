@@ -3,28 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oskar Sawicki | FilmMaker</title>
+  <title>Oskar Sawicki</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 <div class="grid-overlay"></div>
 
 <header>
-  <h1>Oskar Sawicki</h1>
-  <nav>
+  <div class="header-container">
+    <h1>Oskar Sawicki</h1>
+    <div class="mobile-menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- Desktop Navigation -->
+  <nav id="main-nav">
     <ul>
       <li><a href="#director">DIRECTOR</a></li>
       <li><a href="#dop">DIRECTOR OF PHOTOGRAPHY</a></li>
       <li><a href="#editor">EDITOR</a></li>
       <li><a href="#stills">STILLS</a></li>
-      <li><a href="#stills">ABOUT</a></li>
+      <li><a href="#about">ABOUT</a></li>
     </ul>
   </nav>
+
+  <!-- Mobile Navigation (new dropdown style) -->
+  <div id="mobile-nav">
+    <ul>
+      <li><a href="#director">DIRECTOR</a></li>
+      <li><a href="#dop">DIRECTOR OF PHOTOGRAPHY</a></li>
+      <li><a href="#editor">EDITOR</a></li>
+      <li><a href="#stills">STILLS</a></li>
+      <li><a href="#about">ABOUT</a></li>
+    </ul>
+  </div>
 </header>
 
-<!-- Add this main tag to wrap your content -->
 <main>
-  <!-- Your page content will go here -->
+  <section class="video-section">
+    <div class="video-wrapper">
+      <iframe src="https://player.vimeo.com/video/916144478?title=0&byline=0&portrait=0&background=1"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen></iframe>
+    </div>
+  </section>
 </main>
 
 <footer id="contact">
@@ -34,7 +59,10 @@
     <a href="https://www.facebook.com/profile.php?id=100004816442734">Facebook</a>
     <a href="https://www.youtube.com/OskarSawicki">Youtube</a>
   </div>
-  <p>oskar.sawicky@gmail.com | +48 798 271 365</p>
+  <div class="contact-info">
+    <a href="mailto:oskar.sawicky@gmail.com">oskar.sawicky@gmail.com</a><br>
+    <a href="tel:+48798271365">+48 798 271 365</a>
+  </div>
   <div class="copyright">
     <p>© 2025 Oskar Sawicki. Wszelkie prawa zastrzeżone.</p>
   </div>
