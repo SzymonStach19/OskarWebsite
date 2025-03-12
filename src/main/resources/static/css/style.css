@@ -1,4 +1,5 @@
-/* Resetowanie stylów */
+/*
+!* Resetowanie stylów *!
 * {
     margin: 0;
     padding: 0;
@@ -7,11 +8,11 @@
 }
 
 :root {
-    --bg-color: #121212; /* Ciemne tło */
-    --text-color: #e0e0e0; /* Jasny tekst */
-    --accent-color: #a0a0a0; /* Subtelny akcent */
-    --light-accent: #333333; /* Ciemniejszy akcent dla elementów */
-    --dark-accent: #a0a0a0; /* Jaśniejszy akcent dla hover */
+    --bg-color: #121212; !* Ciemne tło *!
+    --text-color: #e0e0e0; !* Jasny tekst *!
+    --accent-color: #a0a0a0; !* Subtelny akcent *!
+    --light-accent: #333333; !* Ciemniejszy akcent dla elementów *!
+    --dark-accent: #a0a0a0; !* Jaśniejszy akcent dla hover *!
 }
 
 body {
@@ -21,7 +22,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Subtelna siatka tła */
+!* Subtelna siatka tła *!
 .grid-overlay {
     position: fixed;
     top: 0;
@@ -47,13 +48,13 @@ body {
             );
 }
 
-/* Header */
+!* Header *!
 header {
     padding: 2rem 0;
     position: fixed;
     width: 100%;
     top: 0;
-    background-color: rgba(18, 18, 18, 0.95); /* Ciemne tło z przezroczystością */
+    background-color: rgba(18, 18, 18, 0.95); !* Ciemne tło z przezroczystością *!
     z-index: 100;
     border-bottom: 1px solid var(--light-accent);
     backdrop-filter: blur(5px);
@@ -88,7 +89,7 @@ header h1 {
     color: var(--dark-accent);
 }
 
-/* Navigation */
+!* Navigation *!
 #main-nav {
     width: 100%;
 }
@@ -136,7 +137,7 @@ header h1 {
     color: var(--dark-accent);
 }
 
-/* Mobile menu */
+!* Mobile menu *!
 .mobile-menu-toggle {
     display: none;
     cursor: pointer;
@@ -150,7 +151,7 @@ header h1 {
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: rgba(18, 18, 18, 0.98); /* Ciemne tło z przezroczystością */
+    background-color: rgba(18, 18, 18, 0.98); !* Ciemne tło z przezroczystością *!
     padding: 1rem 0;
     border-bottom: 1px solid var(--light-accent);
     backdrop-filter: blur(5px);
@@ -165,7 +166,7 @@ header h1 {
     padding: 0 5%;
 }
 
-/* Main content */
+!* Main content *!
 main {
     padding-top: 150px;
     max-width: 1200px;
@@ -174,7 +175,7 @@ main {
     text-align: center;
 }
 
-/* Video section */
+!* Video section *!
 .video-section {
     width: 85%;
     max-width: 1000px;
@@ -184,11 +185,11 @@ main {
 
 .video-wrapper {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%; !* 16:9 aspect ratio *!
     height: 0;
     overflow: hidden;
-    background-color: transparent; /* Zmienione z var(--bg-color) */
-    border: none; /* Zmienione z 1px solid var(--light-accent) */
+    background-color: transparent; !* Zmienione z var(--bg-color) *!
+    border: none; !* Zmienione z 1px solid var(--light-accent) *!
     margin-bottom: 0;
 }
 
@@ -201,16 +202,16 @@ main {
     border: none;
 }
 
-/* Portfolio sections */
+!* Portfolio sections *!
 .portfolio-section {
     padding: 5rem 5% 3rem;
     min-height: 70vh;
     text-align: center;
-    display: none; /* Hide sections by default */
+    display: none; !* Hide sections by default *!
 }
 
 .portfolio-section.active {
-    display: block; /* Show only active section */
+    display: block; !* Show only active section *!
 }
 
 #home, #director, #dop, #editor, #stills, #about {
@@ -242,7 +243,7 @@ main {
     background-color: var(--dark-accent);
 }
 
-/* Portfolio grid */
+!* Portfolio grid *!
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -284,7 +285,7 @@ main {
     left: 0;
     width: 100%;
     padding: 1.2rem;
-    background-color: rgba(18, 18, 18, 0.9); /* Ciemne tło z przezroczystością */
+    background-color: rgba(18, 18, 18, 0.9); !* Ciemne tło z przezroczystością *!
     transform: translateY(100%);
     transition: transform 0.3s ease;
     text-align: left;
@@ -307,11 +308,11 @@ main {
     color: var(--accent-color);
 }
 
-/* About section */
+!* About section *!
 .about-content {
     max-width: 700px;
     margin: 0 auto;
-    text-align: center; /* Center the text */
+    text-align: center; !* Center the text *!
 }
 
 .about-text p {
@@ -320,7 +321,7 @@ main {
     line-height: 1.8;
 }
 
-/* Footer */
+!* Footer *!
 footer {
     padding: 4rem 5%;
     background-color: var(--bg-color);
@@ -389,7 +390,7 @@ footer {
     margin-top: 2rem;
 }
 
-/* Subtelna animacja */
+!* Subtelna animacja *!
 .fade-in {
     opacity: 0;
     transform: translateY(10px);
@@ -401,7 +402,7 @@ footer {
     transform: translateY(0);
 }
 
-/* Responsive styles */
+!* Responsive styles *!
 @media (max-width: 768px) {
     header {
         padding: 1.5rem 5%;
@@ -450,4 +451,4 @@ footer {
     .portfolio-grid {
         grid-template-columns: 1fr;
     }
-}
+}*/

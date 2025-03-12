@@ -1,3 +1,4 @@
+/*
 document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
@@ -99,3 +100,5 @@ document.addEventListener('DOMContentLoaded', function() {
         checkFade();
     });
 });
+
+*/
