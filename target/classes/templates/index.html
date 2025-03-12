@@ -12,7 +12,7 @@
 
 <header>
   <div class="header-container">
-    <h1>Oskar Sawicki</h1>
+    <h1><a href="#home" id="logo-link">OSKAR SAWICKI</a></h1>
     <div class="mobile-menu-toggle">
       <i class="fas fa-bars"></i>
     </div>
@@ -29,7 +29,7 @@
     </ul>
   </nav>
 
-  <!-- Mobile Navigation (new dropdown style) -->
+  <!-- Mobile Navigation -->
   <div id="mobile-nav">
     <ul>
       <li><a href="#director">DIRECTOR</a></li>
@@ -42,12 +42,147 @@
 </header>
 
 <main>
-  <section class="video-section">
-    <div class="video-wrapper">
-      <iframe src="https://player.vimeo.com/video/916144478?title=0&byline=0&portrait=0&background=1"
-              frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowfullscreen></iframe>
+  <!-- Home section with main video -->
+  <section id="home" class="portfolio-section">
+    <div class="video-section">
+      <div class="video-wrapper">
+        <iframe src="https://player.vimeo.com/video/916144478?title=0&byline=0&portrait=0&background=1"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="director" class="portfolio-section">
+    <h2 class="section-title">DIRECTOR</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Director work 1">
+        <div class="portfolio-item-overlay">
+          <h3>Projekt 1</h3>
+          <p>Krótki opis projektu reżyserskiego</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Director work 2">
+        <div class="portfolio-item-overlay">
+          <h3>Projekt 2</h3>
+          <p>Krótki opis projektu reżyserskiego</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Director work 3">
+        <div class="portfolio-item-overlay">
+          <h3>Projekt 3</h3>
+          <p>Krótki opis projektu reżyserskiego</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="dop" class="portfolio-section">
+    <h2 class="section-title">DIRECTOR OF PHOTOGRAPHY</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="DOP work 1">
+        <div class="portfolio-item-overlay">
+          <h3>Projekt 1</h3>
+          <p>Krótki opis pracy jako operator</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="DOP work 2">
+        <div class="portfolio-item-overlay">
+          <h3>Projekt 2</h3>
+          <p>Krótki opis pracy jako operator</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="DOP work 3">
+        <div class="portfolio-item-overlay">
+          <h3>Projekt 3</h3>
+          <p>Krótki opis pracy jako operator</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="editor" class="portfolio-section">
+    <h2 class="section-title">EDITOR</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Editor work 1">
+        <div class="portfolio-item-overlay">
+          <h3>Projekt 1</h3>
+          <p>Krótki opis pracy montażowej</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Editor work 2">
+        <div class="portfolio-item-overlay">
+          <h3>Projekt 2</h3>
+          <p>Krótki opis pracy montażowej</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Editor work 3">
+        <div class="portfolio-item-overlay">
+          <h3>Projekt 3</h3>
+          <p>Krótki opis pracy montażowej</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stills" class="portfolio-section">
+    <h2 class="section-title">STILLS</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Photography 1">
+        <div class="portfolio-item-overlay">
+          <h3>Fotografia 1</h3>
+          <p>Krótki opis fotografii</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Photography 2">
+        <div class="portfolio-item-overlay">
+          <h3>Fotografia 2</h3>
+          <p>Krótki opis fotografii</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Photography 3">
+        <div class="portfolio-item-overlay">
+          <h3>Fotografia 3</h3>
+          <p>Krótki opis fotografii</p>
+        </div>
+      </div>
+      <div class="portfolio-item">
+        <img src="/api/placeholder/400/300" alt="Photography 4">
+        <div class="portfolio-item-overlay">
+          <h3>Fotografia 4</h3>
+          <p>Krótki opis fotografii</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="portfolio-section">
+    <h2 class="section-title">ABOUT</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p>
+          Tutaj umieść swój profesjonalny opis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent at lorem magna. Sed vestibulum felis non magna facilisis, eu dapibus lorem interdum.
+        </p>
+        <p>
+          Fusce semper lacus at odio fermentum, vel fermentum arcu elementum. Sed vestibulum tincidunt magna, sed tincidunt lacus cursus vel. Praesent vel metus at mi commodo sagittis vel quis mi.
+        </p>
+        <p>
+          Cras sed vehicula libero, in interdum justo. Nulla facilisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec efficitur nunc eget nulla molestie.
+        </p>
+      </div>
     </div>
   </section>
 </main>
