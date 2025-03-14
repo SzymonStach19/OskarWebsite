@@ -10,4 +10,13 @@ public class HomeController {
     public String home() {
         return "index";
     }
+    @GetMapping("/index")
+    public String indexAlt() {
+        return "index";
+    }
+
+    @GetMapping("/info")
+    public String info() {
+        return "info";
+    }
 }
