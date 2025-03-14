@@ -183,7 +183,7 @@ body {
 /* Different scaling for different device orientations and sizes */
 @media (min-width: 768px) {
     #videoBackground {
-        transform: translate(-50%, -50%) scale(2.0); /* Desktop zoom */
+        transform: translate(-50%, -50%) scale(1.8); /* Desktop zoom */
     }
 }
 
