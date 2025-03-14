@@ -183,14 +183,14 @@ body {
 /* Different scaling for different device orientations and sizes */
 @media (min-width: 768px) {
     #videoBackground {
-        transform: translate(-50%, -50%) scale(1.5); /* Desktop zoom */
+        transform: translate(-50%, -50%) scale(2.0); /* Desktop zoom */
     }
 }
 
 /* Portrait phones */
 @media (max-width: 767px) and (orientation: portrait) {
     #videoBackground {
-        transform: translate(-50%, -50%) scale(3.5); /* Extreme zoom for portrait phones */
+        transform: translate(-50%, -50%) scale(4.2); /* Extreme zoom for portrait phones */
     }
 
     .logo {
