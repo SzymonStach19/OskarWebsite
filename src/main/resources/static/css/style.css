@@ -6,17 +6,17 @@
 
 body {
     font-family: Arial, sans-serif;
-    overflow: hidden;
-    height: 100vh;
+    overflow-x: hidden; /* Changed from overflow: hidden to allow vertical scrolling */
+    min-height: 100vh;
     width: 100vw;
     background-color: #000;
 }
 
 .container {
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
-    overflow: hidden;
+    overflow-x: hidden; /* Allow vertical scrolling */
 }
 
 .video-section {
@@ -66,16 +66,15 @@ body {
 }
 
 .black-section {
-    position: absolute;
-    top: 100vh;
-    height: 100vh;
+    position: relative; /* Changed from absolute to allow normal flow */
+    min-height: 100vh;
     width: 100%;
     background-color: #000;
     color: white;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: 24px;
+    padding: 10px 40px 40px;
     font-family: 'Courier New', monospace;
 }
 
@@ -180,10 +179,134 @@ body {
     color: #888;
 }
 
+/* Portfolio Styles */
+.portfolio-filter {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 1200px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.portfolio-filter.appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'Courier New', monospace;
+    font-size: 30px;
+    margin: 0 15px 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 5px 0;
+    position: relative;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    color: #888;
+}
+
+.filter-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #888;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    padding-bottom: 60px; /* Add padding at the bottom for better scrolling */
+}
+
+.portfolio-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.portfolio-item.appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.portfolio-item:hover .portfolio-overlay {
+    opacity: 1;
+}
+
+.portfolio-item:hover img {
+    transform: scale(1.05);
+}
+
+.portfolio-overlay h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    letter-spacing: 0.1em;
+}
+
+.portfolio-overlay p {
+    font-size: 14px;
+    letter-spacing: 0.05em;
+}
+
+/* Portfolio video links */
+.portfolio-video-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: white;
+}
+
 /* Different scaling for different device orientations and sizes */
 @media (min-width: 768px) {
     #videoBackground {
         transform: translate(-50%, -50%) scale(1.8); /* Desktop zoom */
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -198,10 +321,23 @@ body {
         top: 8%;
     }
 
-    .black-section p {
-        font-size: 18px;
-        padding: 0 20px;
-        text-align: center;
+    .black-section {
+        padding: 80px 20px 20px;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .portfolio-filter {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter-btn {
+        margin: 5px 0;
+        font-size: 12px;
     }
 
     .hamburger-menu {
@@ -259,6 +395,11 @@ body {
     #videoBackground {
         transform: translate(-50%, -50%) scale(2.5); /* Less extreme zoom for landscape phones */
     }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
 }
 
 /* Ensure the iframe doesn't block pointer events */
@@ -282,5 +423,3 @@ iframe {
         display: block;
     }
 }
-
-
