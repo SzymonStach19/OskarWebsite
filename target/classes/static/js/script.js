@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (indexLink) {
         indexLink.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = '#'; // Navigate to index page
+            window.location.href = 'list'; // Navigate to index page
             if (navMenu) navMenu.classList.remove('active');
             if (hamburgerMenu) hamburgerMenu.classList.remove('active');
         });

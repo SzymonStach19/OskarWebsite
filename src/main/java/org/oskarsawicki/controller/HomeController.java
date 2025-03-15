@@ -19,4 +19,8 @@ public class HomeController {
     public String info() {
         return "info";
     }
+    @GetMapping("/list")
+    public String list() {
+        return "list";
+    }
 }

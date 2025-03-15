@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navigation link handling
     document.getElementById('indexLink').addEventListener('click', function(e) {
         e.preventDefault();
-        window.location.href = 'index.html#bottom-section'; // Navigate to index page bottom section
+        window.location.href = 'list'; // Navigate to index page bottom section
         navMenu.classList.remove('active');
         hamburgerMenu.classList.remove('active');
     });
