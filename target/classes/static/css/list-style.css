@@ -175,6 +175,11 @@ body {
     color: white !important;
 }
 
+/* When hovering on a specific item, it should be white */
+.header-item:hover {
+    color: white !important;
+}
+
 .company-list {
     display: flex;
     flex-direction: column;
@@ -250,6 +255,11 @@ body {
     font-family: 'Courier New', monospace;
     font-size: 18px;
     margin-left: 20px;
+}
+
+.company-item .right-info {
+    display: flex;
+    align-items: center;
 }
 
 .mobile-nav-background {

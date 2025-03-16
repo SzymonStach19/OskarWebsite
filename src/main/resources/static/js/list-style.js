@@ -18,32 +18,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add hover effect to header items container
-    headerItemsContainer.addEventListener('mouseenter', function() {
-        // Make all items not being hovered or active gray
-        headerItems.forEach(item => {
-            if (!item.classList.contains('active')) {
-                item.style.color = '#888';
-            }
-        });
-    });
-
-    headerItemsContainer.addEventListener('mouseleave', function() {
-        // Reset all items to white when not hovering the container
-        headerItems.forEach(item => {
-            if (!item.classList.contains('active')) {
-                item.style.color = 'white';
-            }
-        });
-    });
-
-    // Add hover effect to individual header items
+    // Initialize the header items to all be white
     headerItems.forEach(item => {
+        item.style.color = 'white';
+    });
+
+    // Updated header item interaction logic
+    headerItems.forEach(item => {
+        // Click event for selecting categories
+        item.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+
+            // If this item is already active, unclick it
+            if (this.classList.contains('active')) {
+                this.classList.remove('active');
+
+                // Reset all items to white when nothing is selected
+                headerItems.forEach(i => {
+                    i.style.color = 'white';
+                });
+
+                // Show all companies
+                resetCompanyFilter();
+                return;
+            }
+
+            // Remove active class from all items
+            headerItems.forEach(i => {
+                i.classList.remove('active');
+            });
+
+            // Add active class to clicked item
+            this.classList.add('active');
+
+            // Set colors: active is white, others are gray
+            headerItems.forEach(i => {
+                if (i.classList.contains('active')) {
+                    i.style.color = 'white';
+                } else {
+                    i.style.color = '#888';
+                }
+            });
+
+            // Filter companies by this category
+            filterCompanies(category);
+        });
+
+        // Mouse enter for hover effect
         item.addEventListener('mouseenter', function() {
-            // This item becomes white when hovered
+            // Make this item white when hovered
             this.style.color = 'white';
 
-            // Other non-active items become gray
+            // Make all other items gray, regardless of whether they're active
             headerItems.forEach(otherItem => {
                 if (otherItem !== this && !otherItem.classList.contains('active')) {
                     otherItem.style.color = '#888';
@@ -51,10 +77,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
+        // Mouse leave to reset colors
         item.addEventListener('mouseleave', function() {
-            // Return to appropriate color based on container hover state
+            // If this item is not active, set it back to gray if any item is active
             if (!this.classList.contains('active')) {
-                if (headerItemsContainer.matches(':hover')) {
+                const anyActive = Array.from(headerItems).some(i => i.classList.contains('active'));
+                if (anyActive) {
                     this.style.color = '#888';
                 } else {
                     this.style.color = 'white';
@@ -63,28 +91,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add click event listeners to header items for filtering
-    headerItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const category = this.getAttribute('data-category');
+    // Header container hover effects
+    headerItemsContainer.addEventListener('mouseenter', function() {
+        const anyActive = Array.from(headerItems).some(i => i.classList.contains('active'));
 
-            // Toggle active state for this category
-            if (this.classList.contains('active')) {
-                this.classList.remove('active');
-                // Show all companies when no category is selected
-                filterCompanies(null);
-            } else {
-                // Remove active class from any other item
-                headerItems.forEach(i => i.classList.remove('active'));
+        // If any item is active, non-active and non-hovered items should be gray
+        if (anyActive) {
+            headerItems.forEach(item => {
+                if (!item.classList.contains('active') && !item.matches(':hover')) {
+                    item.style.color = '#888';
+                }
+            });
+        }
+    });
 
-                // Add active class to this item and ensure it stays white
-                this.classList.add('active');
-                this.style.color = 'white';
+    // Header container mouse leave effect
+    headerItemsContainer.addEventListener('mouseleave', function() {
+        const anyActive = Array.from(headerItems).some(i => i.classList.contains('active'));
 
-                // Filter companies by this category
-                filterCompanies(category);
-            }
-        });
+        // If any item is active, keep active white and others gray
+        if (anyActive) {
+            headerItems.forEach(item => {
+                if (item.classList.contains('active')) {
+                    item.style.color = 'white';
+                } else {
+                    item.style.color = '#888';
+                }
+            });
+        } else {
+            // If no item is active, all items are white
+            headerItems.forEach(item => {
+                item.style.color = 'white';
+            });
+        }
     });
 
     // Add click event listeners to company items
@@ -137,18 +176,19 @@ document.addEventListener('DOMContentLoaded', function() {
         companyItems.forEach(item => {
             const itemCategories = item.getAttribute('data-categories').split(',');
 
-            // If no category is active, show all items
-            if (!category) {
-                item.classList.remove('hidden');
-                return;
-            }
-
             // Check if this item has the active category
             if (itemCategories.includes(category)) {
                 item.classList.remove('hidden');
             } else {
                 item.classList.add('hidden');
             }
+        });
+    }
+
+    // Reset company filter to show all companies
+    function resetCompanyFilter() {
+        companyItems.forEach(item => {
+            item.classList.remove('hidden');
         });
     }
 
