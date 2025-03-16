@@ -1,0 +1,330 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #000;
+    color: white;
+}
+
+.container {
+    position: relative;
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+.black-section {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #000;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px 40px;
+    font-family: 'Courier New', monospace;
+}
+
+.small-logo {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: normal;
+    z-index: 100;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+}
+
+.small-logo:hover {
+    color: #888;
+}
+
+.small-logo.active-logo {
+    color: #888 !important;
+}
+
+.hamburger-menu {
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    width: 30px;
+    height: 24px;
+    cursor: pointer;
+    z-index: 100;
+    transition: opacity 0.5s ease;
+    padding: 15px;
+    margin: -15px;
+}
+
+.hamburger-line {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+.hamburger-line:nth-child(1) {
+    top: 8px;
+}
+
+.hamburger-line:nth-child(2) {
+    top: 16px;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+    top: 12px;
+    transform: rotate(45deg);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+    top: 12px;
+    transform: rotate(-45deg);
+}
+
+.nav-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+}
+
+.nav-menu.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-menu a {
+    color: white;
+    font-size: 32px;
+    font-family: 'Courier New', monospace;
+    font-weight: normal;
+    text-decoration: none;
+    margin: 20px 0;
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease;
+}
+
+.nav-menu a:hover {
+    color: #888;
+}
+
+.header {
+    width: 100%;
+    padding: 80px 0 40px;
+    text-align: center;
+}
+
+.header-items {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-item {
+    font-size: 45px;
+    font-weight: normal;
+    letter-spacing: 0.05em;
+    font-family: 'Courier New', monospace;
+    margin: 0 15px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    color: white; /* Default color is white */
+}
+
+.header-separator {
+    font-size: 45px;
+    font-weight: normal;
+    letter-spacing: 0.05em;
+    font-family: 'Courier New', monospace;
+    margin: 0 5px;
+    color: white;
+}
+
+/* When hovering the header items container, make non-hovered items gray */
+.header-items:hover .header-item:not(:hover):not(.active) {
+    color: #888;
+}
+
+/* Active items (clicked) stay white */
+.header-item.active {
+    color: white !important;
+}
+
+.company-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.company-item {
+    width: 100%;
+    padding: 15px 0;
+    font-size: 28px;
+    letter-spacing: 0.03em;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.company-item.hidden {
+    display: none;
+}
+
+/* Hover effect for company items */
+.company-list:hover .company-item:not(:hover) {
+    color: #888;
+}
+
+.company-list:hover .company-item:not(:hover) .company-subname {
+    color: #666;
+}
+
+.company-list:hover .company-item:not(:hover) .company-category {
+    color: #666;
+}
+
+/* Active item effect */
+.company-item.active {
+    color: white;
+}
+
+.company-item.active .company-subname {
+    color: #888;
+}
+
+.company-item.active .company-category {
+    color: white;
+}
+
+.company-item .company-name {
+    display: flex;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+.company-item .company-subname {
+    color: #666;
+    font-weight: normal;
+    margin-left: 10px;
+}
+
+.company-item .company-category {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.company-item .company-count {
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.mobile-nav-background {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: #000;
+    z-index: 90;
+}
+
+@media (max-width: 767px) {
+    .mobile-nav-background {
+        display: block;
+    }
+
+    .header-item {
+        font-size: 22px;
+        margin: 5px 8px;
+    }
+
+    .header-separator {
+        font-size: 22px;
+        margin: 5px 2px;
+    }
+
+    .company-item {
+        font-size: 22px;
+    }
+
+    .company-item .company-category {
+        font-size: 12px;
+    }
+
+    .hamburger-menu {
+        position: fixed;
+        top: 20px !important;
+        right: 20px !important;
+        bottom: auto;
+        left: auto;
+        width: 25px;
+        height: 20px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .hamburger-line:nth-child(1) {
+        top: 6px;
+    }
+
+    .hamburger-line:nth-child(2) {
+        top: 14px;
+    }
+
+    .hamburger-menu.active .hamburger-line:nth-child(1) {
+        top: 10px;
+    }
+
+    .hamburger-menu.active .hamburger-line:nth-child(2) {
+        top: 10px;
+    }
+
+    .small-logo {
+        top: 20px;
+        left: 20px;
+        font-size: 14px;
+        line-height: 1.3;
+        padding: 10px;
+        margin: -10px;
+    }
+
+    .nav-menu a {
+        font-size: 24px;
+        margin: 15px 0;
+    }
+}
