@@ -16,9 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const smallLogo = document.getElementById('smallLogo');
     const videoSection = document.getElementById('top-section');
     const mobileNavBackground = document.getElementById('mobileNavBackground');
-    const portfolioFilter = document.querySelector('.portfolio-filter');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
-    const filterButtons = document.querySelectorAll('.filter-btn');
 
     // Create skip indicator element
     const skipIndicator = document.createElement('div');
@@ -55,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
         videoBackground.addEventListener('load', function() {
             this.style.opacity = '1';
             if (nameTitle) nameTitle.style.opacity = '1';
-
             // Add skip instruction once video is loaded
             addSkipInstruction();
         });
@@ -296,10 +293,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Animate portfolio elements
         setTimeout(function() {
-            if (portfolioFilter) {
-                portfolioFilter.classList.add('appear');
-            }
-
             // Stagger the appearance of portfolio items
             if (portfolioItems.length > 0) {
                 portfolioItems.forEach((item, index) => {
@@ -383,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-// Prevent scrolling back to video section once transitioned to black section
+    // Prevent scrolling back to video section once transitioned to black section
     window.addEventListener('scroll', function() {
         // Only apply this after initial transition is complete
         if (initialScrollComplete) {
@@ -447,38 +440,6 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = 'info'; // Navigate to info page
             if (navMenu) navMenu.classList.remove('active');
             if (hamburgerMenu) hamburgerMenu.classList.remove('active');
-        });
-    }
-
-    // Portfolio filtering functionality
-    if (filterButtons.length > 0) {
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remove active class from all buttons
-                filterButtons.forEach(innerBtn => {
-                    innerBtn.classList.remove('active');
-                });
-
-                // Add active class to clicked button
-                this.classList.add('active');
-
-                // Get filter value
-                const filterValue = this.getAttribute('data-filter');
-
-                // Filter items
-                portfolioItems.forEach(item => {
-                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
-                        item.style.display = 'block';
-                        // Re-trigger animation
-                        item.classList.remove('appear');
-                        setTimeout(() => {
-                            item.classList.add('appear');
-                        }, 50);
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
         });
     }
 

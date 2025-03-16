@@ -180,54 +180,6 @@ body {
 }
 
 /* Portfolio Styles */
-.portfolio-filter {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-    width: 100%;
-    max-width: 1200px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1s ease, transform 1s ease;
-}
-
-.portfolio-filter.appear {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.filter-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-family: 'Courier New', monospace;
-    font-size: 30px;
-    margin: 0 15px 10px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    padding: 5px 0;
-    position: relative;
-}
-
-.filter-btn:hover{
-    color: #888; !important;
-}
-
-.filter-btn:hover, .filter-btn.active {
-    color: #888; !important;
-}
-
-.filter-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #888;
-}
-
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -235,6 +187,7 @@ body {
     width: 100%;
     max-width: 1200px;
     padding-bottom: 60px; /* Add padding at the bottom for better scrolling */
+    margin-top: 40px; /* Added spacing to replace the filter section */
 }
 
 .portfolio-item {
@@ -332,28 +285,6 @@ body {
     .portfolio-grid {
         grid-template-columns: 1fr;
         gap: 15px;
-    }
-
-    .portfolio-filter {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .filter-btn {
-        margin: 5px 0;
-        font-size: 12px;
-        color: white !important; /* Force white color instead of grey */
-
-    }
-
-    /* Change the color for active state */
-    .filter-btn.active {
-        color: #888 !important; /* Keep grey only for active state */
-    }
-
-    /* Also ensure hover state has proper color */
-    .filter-btn:hover {
-        color: #888 !important;
     }
 
     .hamburger-menu {
