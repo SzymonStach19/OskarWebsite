@@ -3,108 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oskar Sawicki</title>
+  <title>Your Portfolio</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <div class="container">
-  <div class="video-section" id="top-section">
-    <div class="logo" id="nameTitle">OSKAR<br>SAWICKI</div>
-    <div class="video-container">
-      <video id="videoBackground" autoplay muted playsinline loop preload="auto">
-        <source src="upload/ScreenRecording_02-27-2025 09-27-13_1.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+  <!-- Gallery Layout -->
+  <div class="gallery">
+    <!-- Left column - tall vertical image -->
+    <div class="gallery-left">
+      <div class="gallery-item tall">
+        <img src="/images/pic1.jpg" alt="Portfolio image">
+        <div class="overlay"></div>
+      </div>
     </div>
-  </div>
-  <div class="black-section" id="bottom-section">
-    <!-- Portfolio Grid -->
-    <div class="portfolio-grid">
-      <!-- Portfolio Items -->
-      <div class="portfolio-item">
-        <img src="/images/portfolio/dop1.jpg" alt="DOP Project">
-        <div class="portfolio-overlay">
-          <h3>DAKOTA</h3>
-          <p>MUSIC VIDEO</p>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="/images/portfolio/director1.jpg" alt="Director Project">
-        <div class="portfolio-overlay">
-          <h3>KATE SPADE</h3>
-          <p>COMMERCIAL</p>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="/images/portfolio/editor1.jpg" alt="Editor Project">
-        <div class="portfolio-overlay">
-          <h3>BLOOM</h3>
-          <p>SHORT FILM</p>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="/images/portfolio/stills1.jpg" alt="Stills Project">
-        <div class="portfolio-overlay">
-          <h3>FASHION WEEK</h3>
-          <p>EDITORIAL</p>
-        </div>
-      </div>
 
-      <!-- Additional Portfolio Items -->
-      <div class="portfolio-item">
-        <img src="/images/portfolio/editor2.jpg" alt="Editor Project">
-        <div class="portfolio-overlay">
-          <h3>EDITOR PROJECT</h3>
-          <p>VIMEO 1025894346</p>
-        </div>
+    <!-- Right column - two images -->
+    <div class="gallery-right">
+      <div class="gallery-item">
+        <img src="/images/images.jpeg" alt="Portfolio image">
+        <div class="overlay"></div>
       </div>
-      <div class="portfolio-item">
-        <img src="/images/portfolio/director2.jpg" alt="Director Project">
-        <div class="portfolio-overlay">
-          <h3>DIRECTOR PROJECT</h3>
-          <p>VIMEO 948922878</p>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="/images/portfolio/editor3.jpg" alt="Editor Project">
-        <div class="portfolio-overlay">
-          <h3>EDITOR PROJECT</h3>
-          <p>VIMEO 928373971</p>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="/images/portfolio/editor4.jpg" alt="Editor Project">
-        <div class="portfolio-overlay">
-          <h3>EDITOR PROJECT</h3>
-          <p>VIMEO 923575017</p>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="/images/portfolio/editor-director1.jpg" alt="Editor and Director Project">
-        <div class="portfolio-overlay">
-          <h3>EDITOR & DIRECTOR</h3>
-          <p>VIMEO 916512047</p>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="/images/portfolio/dop-editor1.jpg" alt="DOP and Editor Project">
-        <div class="portfolio-overlay">
-          <h3>DOP & EDITOR</h3>
-          <p>VIMEO 672193161</p>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="/images/portfolio/director-editor1.jpg" alt="Director and Editor Project">
-        <div class="portfolio-overlay">
-          <h3>DIRECTOR & EDITOR</h3>
-          <p>VIMEO 672187998</p>
-        </div>
+      <div class="gallery-item">
+        <img src="/images/171676061716406500.jpg" alt="Portfolio image">
+        <div class="overlay"></div>
       </div>
     </div>
   </div>
 </div>
-<div class="mobile-nav-background" id="mobileNavBackground"></div>
 
+<!-- Logo -->
 <a href="/" class="small-logo-link">
   <div class="small-logo" id="smallLogo">OSKAR<br>SAWICKI</div>
 </a>
@@ -117,9 +45,11 @@
 
 <!-- Navigation Menu -->
 <div class="nav-menu" id="navMenu">
-  <a href="list.html" id="indexLink">INDEX</a>
-  <a href="info.html" id="infoLink">INFO</a>
+  <a href="list" id="indexLink">INDEX</a>
+  <a href="info" id="infoLink">INFO</a>
 </div>
+
+<div class="mobile-nav-background" id="mobileNavBackground"></div>
 
 <script src="/js/script.js"></script>
 </body>
