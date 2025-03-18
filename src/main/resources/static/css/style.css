@@ -238,40 +238,35 @@ body {
     .container {
         padding-top: 20px;
         padding-bottom: 20px;
+        overflow-x: hidden; /* Ensure no horizontal scroll */
+        max-width: 100vw; /* Limit container width */
     }
 
     .gallery {
-        margin: 70px auto 20px;
         padding-left: 20px;
         padding-right: 20px;
         flex-direction: column;
-        gap: 20px;
-        margin-bottom: 60px;
+        width: calc(100% - 40px); /* Account for left/right padding */
+        max-width: 100%;
     }
 
     .gallery-left, .gallery-right {
         width: 100%;
+        max-width: 100%;
     }
 
     .gallery-item {
         width: 100%;
         height: auto;
-        margin-bottom: 20px;
+        max-width: 100%; /* Ensure gallery items don't overflow */
     }
 
-    .gallery-right {
-        gap: 20px;
-    }
-
-    .gallery-left.reversed {
-        gap: 20px;
-    }
-
-    /* Keep tall images vertical on mobile */
     .gallery-item.tall {
         aspect-ratio: 9/16; /* Vertical aspect ratio */
         height: auto;
         min-height: 500px; /* Ensure vertical images have good height */
+        width: 100%; /* Full width on mobile */
+        max-width: 100%;
     }
 
     .mobile-nav-background {
@@ -323,6 +318,12 @@ body {
     .centered-text {
         font-size: 8vw;
     }
+
+    /* Ensure images don't overflow */
+    .gallery-item img {
+        max-width: 100%;
+        width: 100%;
+    }
 }
 
 /* Medium screens */
@@ -330,20 +331,18 @@ body {
     .gallery {
         padding-left: 40px;
         padding-right: 40px;
-        gap: 30px;
     }
 
     .gallery-item {
         width: 100%;
         height: 300px;
+        max-width: 100%;
     }
 
     .gallery-item.tall {
         height: 630px;
-    }
-
-    .gallery-right {
-        gap: 20px;
+        width: 100%;
+        max-width: 100%;
     }
 }
 
