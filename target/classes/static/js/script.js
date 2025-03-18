@@ -160,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function getVisibilityPercentage(element) {
         const rect = element.getBoundingClientRect();
         const windowHeight = window.innerHeight;
+        const windowCenter = windowHeight / 2;
 
         // Calculate how much of the element is visible
         const visibleTop = Math.max(0, rect.top);
@@ -171,7 +172,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const visibleHeight = visibleBottom - visibleTop;
         const elementHeight = rect.bottom - rect.top;
+        const visibilityPercent = (visibleHeight / elementHeight) * 100;
 
-        return (visibleHeight / elementHeight) * 100;
+        // Calculate the element's center point
+        const elementCenter = (rect.top + rect.bottom) / 2;
+
+        // Calculate how close the element center is to viewport center (as a percentage)
+        // The closer to center, the higher the score
+        const distanceFromCenter = Math.abs(elementCenter - windowCenter);
+        const maxDistance = windowHeight / 2;
+        const centerFactor = 1 - (distanceFromCenter / maxDistance);
+
+        // Weigh the visibility by how centered the element is
+        // This boosts score for elements closer to the center
+        return visibilityPercent * Math.pow(centerFactor, 2);
     }
 });
