@@ -6,6 +6,12 @@
     overflow-x: hidden;
 }
 
+/* Added to prevent over-scrolling issues */
+html, body {
+    overscroll-behavior: none;
+    overflow-x: hidden;
+}
+
 /* Logo styling */
 .small-logo-link {
     text-decoration: none;
@@ -118,6 +124,8 @@
     background-color: #000;
     z-index: 90;
     opacity: 0;
+    /* Added to prevent content from appearing above */
+    overflow: hidden;
 }
 
 /* Responsive design */
