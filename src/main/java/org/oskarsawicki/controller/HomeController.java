@@ -8,9 +8,9 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "index";
+        return "intro";
     }
-    @GetMapping("/index")
+    @GetMapping("/preview")
     public String indexAlt() {
         return "index";
     }
@@ -19,7 +19,7 @@ public class HomeController {
     public String info() {
         return "info";
     }
-    @GetMapping("/list")
+    @GetMapping("/gallery-index")
     public String list() {
         return "list";
     }

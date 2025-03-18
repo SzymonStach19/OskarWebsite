@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.getElementById('navMenu');
     const smallLogo = document.getElementById('smallLogo');
     const galleryItems = document.querySelectorAll('.gallery-item');
+    const galleries = document.querySelectorAll('.gallery');
+
+    // Set initial opacity to 0 for elements that will be animated
+    // This ensures they're hidden even if CSS hasn't loaded yet
+    if (smallLogo) smallLogo.style.opacity = '0';
+    if (hamburgerMenu) hamburgerMenu.style.opacity = '0';
+    galleries.forEach(gallery => {
+        gallery.style.opacity = '0';
+    });
+
+    // Trigger animations after a short delay to ensure DOM is ready
+    setTimeout(() => {
+        if (smallLogo) smallLogo.style.opacity = '';
+        if (hamburgerMenu) hamburgerMenu.style.opacity = '';
+        galleries.forEach(gallery => {
+            gallery.style.opacity = '';
+        });
+    }, 100);
 
     // Apply appropriate menu positioning based on device
     applyMenuPositioning();
