@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburgerMenu = document.getElementById('hamburgerMenu');
     const navMenu = document.getElementById('navMenu');
     const smallLogo = document.getElementById('smallLogo');
+    const galleryItems = document.querySelectorAll('.gallery-item');
 
     // Apply appropriate menu positioning based on device
     applyMenuPositioning();
@@ -17,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Add gallery item hover effects with JavaScript for better control
-    const galleryItems = document.querySelectorAll('.gallery-item');
     galleryItems.forEach(item => {
         item.addEventListener('mouseenter', function() {
             // Add focused class to this item
@@ -48,9 +48,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Scroll effect for mobile
+    initScrollEffect();
+
     // Window resize event
     window.addEventListener('resize', function() {
         applyMenuPositioning();
+        initScrollEffect(); // Re-initialize scroll effect when window is resized
     });
 
     // Helper functions
@@ -90,5 +94,84 @@ document.addEventListener('DOMContentLoaded', function() {
         if (smallLogo) {
             smallLogo.classList.toggle('active-logo', navMenu.classList.contains('active'));
         }
+    }
+
+    function initScrollEffect() {
+        // Clear any existing classes first
+        galleryItems.forEach(item => {
+            item.classList.remove('blurred');
+            item.classList.remove('focused');
+            item.classList.remove('in-view');
+        });
+
+        // Only initialize on mobile devices
+        if (window.innerWidth <= 767) {
+            // Remove previous scroll listener if any
+            window.removeEventListener('scroll', handleScroll);
+
+            // Add new scroll listener
+            window.addEventListener('scroll', handleScroll);
+
+            // Initialize focus on the first visible item
+            setTimeout(function() {
+                handleScroll();
+            }, 100);
+        } else {
+            // For desktop, we already have hover effect
+            window.removeEventListener('scroll', handleScroll);
+        }
+    }
+
+    function handleScroll() {
+        // First, get all elements that are currently in viewport
+        const visibleItems = [];
+        let maxVisibility = 0;
+        let mostVisibleItem = null;
+
+        galleryItems.forEach(item => {
+            const visibility = getVisibilityPercentage(item);
+
+            if (visibility > 0) {
+                visibleItems.push({item, visibility});
+
+                if (visibility > maxVisibility) {
+                    maxVisibility = visibility;
+                    mostVisibleItem = item;
+                }
+            }
+        });
+
+        // If we found a most visible item
+        if (mostVisibleItem) {
+            // Reset all items first
+            galleryItems.forEach(item => {
+                item.classList.remove('focused');
+                item.classList.add('blurred');
+                item.classList.remove('in-view');
+            });
+
+            // Then focus the most visible one
+            mostVisibleItem.classList.add('focused');
+            mostVisibleItem.classList.remove('blurred');
+            mostVisibleItem.classList.add('in-view');
+        }
+    }
+
+    function getVisibilityPercentage(element) {
+        const rect = element.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        // Calculate how much of the element is visible
+        const visibleTop = Math.max(0, rect.top);
+        const visibleBottom = Math.min(windowHeight, rect.bottom);
+
+        if (visibleBottom <= visibleTop) {
+            return 0; // Not visible at all
+        }
+
+        const visibleHeight = visibleBottom - visibleTop;
+        const elementHeight = rect.bottom - rect.top;
+
+        return (visibleHeight / elementHeight) * 100;
     }
 });

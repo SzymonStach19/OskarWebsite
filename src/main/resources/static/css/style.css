@@ -26,10 +26,14 @@ body {
 .gallery {
     display: flex;
     max-width: 1300px;
-    margin: 60px auto;
+    margin: 30px auto;
     padding-left: 80px;
     padding-right: 80px;
-    gap: 45px; /* Gap between left and right columns */
+    gap: 30px; /* Gap between left and right columns */
+}
+
+.gallery:last-child {
+    margin-bottom: 30px;
 }
 
 /* Left column - set to match height of right column's content + gap */
@@ -37,6 +41,12 @@ body {
     flex: 1;
     display: flex;
     align-items: flex-start;
+}
+
+/* Styles for the reversed layout */
+.gallery-left.reversed {
+    flex-direction: column;
+    gap: 30px; /* Match the gap in gallery-right */
 }
 
 /* Right column - contains two items stacked */
@@ -236,15 +246,32 @@ body {
         padding-right: 20px;
         flex-direction: column;
         gap: 20px;
+        margin-bottom: 60px;
+    }
+
+    .gallery-left, .gallery-right {
+        width: 100%;
+    }
+
+    .gallery-item {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
     }
 
     .gallery-right {
         gap: 20px;
     }
 
+    .gallery-left.reversed {
+        gap: 20px;
+    }
+
+    /* Keep tall images vertical on mobile */
     .gallery-item.tall {
-        aspect-ratio: 16/9; /* Reset aspect ratio on mobile */
+        aspect-ratio: 9/16; /* Vertical aspect ratio */
         height: auto;
+        min-height: 500px; /* Ensure vertical images have good height */
     }
 
     .mobile-nav-background {
@@ -296,4 +323,39 @@ body {
     .centered-text {
         font-size: 8vw;
     }
+}
+
+/* Medium screens */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .gallery {
+        padding-left: 40px;
+        padding-right: 40px;
+        gap: 30px;
+    }
+
+    .gallery-item {
+        width: 100%;
+        height: 300px;
+    }
+
+    .gallery-item.tall {
+        height: 630px;
+    }
+
+    .gallery-right {
+        gap: 20px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .gallery-item {
+        width: 100%;
+        max-width: 520px;
+    }
+}
+
+/* In-view detection class */
+.in-view {
+    z-index: 5;
 }
