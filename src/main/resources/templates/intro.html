@@ -30,7 +30,7 @@
       height: 200vh; /* Two screen heights */
       overflow-y: auto;
       overflow-x: hidden;
-      scroll-behavior: smooth; /* Keep this as it was originally */
+      scroll-behavior: smooth;
     }
 
     /* Video panel */
@@ -39,9 +39,9 @@
       height: 100vh;
       width: 100vw;
       overflow: hidden;
-      cursor: pointer; /* Add pointer cursor to indicate clickability */
-      background-color: #000; /* Ensure background is black if video doesn't fill */
-      display: flex; /* Add flex display to center content */
+      cursor: pointer;
+      background-color: #000;
+      display: flex;
       justify-content: center;
       align-items: center;
     }
@@ -62,21 +62,20 @@
       color: white;
       font-size: 32px;
       text-align: center;
-      opacity: 1; /* Start fully visible instead of 0 */
-      transition: opacity 2s ease; /* Keep transition for fade-out */
-      padding: 0 20px; /* Add padding for mobile */
+      opacity: 1;
+      transition: opacity 2s ease;
+      padding: 0 20px;
     }
 
-    /* Video element styling - improved to ensure full coverage */
+    /* Video element base styling */
     video {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-      object-position: center center;
-      background: #000; /* Black background in case video doesn't load */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #000;
+      /* Extra zoom effect - baseline for all devices */
+      transform: scale(1.1);
     }
 
     /* Play button styling */
@@ -103,22 +102,6 @@
       content: "▶";
     }
 
-    /* Skip instruction text */
-    .skip-instruction {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: white;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      opacity: 0.7;
-      z-index: 2;
-    }
-
     /* Add this to make scroll-behavior slower */
     html {
       --scroll-behavior: smooth;
@@ -126,7 +109,7 @@
       transition: all 3s ease;
     }
 
-    /* Updated style for the name text in top left corner to match LACEY style */
+    /* Updated style for the name text in top left corner */
     .name-text {
       position: absolute;
       top: 30px;
@@ -142,28 +125,57 @@
       text-transform: uppercase;
     }
 
-    /* Mobile specific styles */
+    /* DESKTOP SPECIFIC STYLES */
+    @media only screen and (min-width: 1025px) {
+      video {
+        /* Larger zoom for desktop */
+        transform: scale(1.4);
+      }
+    }
+
+    /* MEDIUM SIZED DEVICES (tablets, small laptops) */
+    @media only screen and (min-width: 769px) and (max-width: 1024px) {
+      video {
+        /* Medium zoom for medium devices */
+        transform: scale(1.4);
+      }
+    }
+
+    /* MOBILE SPECIFIC STYLES */
     @media only screen and (max-width: 768px) {
       .name-text {
-        font-size: 64px; /* Smaller font size for mobile */
+        font-size: 64px;
         top: 20px;
         left: 20px;
       }
 
       .creator-text {
-        font-size: 24px; /* Adjust text size for mobile */
+        font-size: 24px;
       }
 
       .play-button {
-        width: 60px; /* Smaller play button for mobile */
+        width: 60px;
         height: 60px;
         font-size: 20px;
       }
 
+      video {
+        /* Extra zoom for mobile to ensure fullscreen */
+        transform: scale(1.4);
+      }
+
       /* Fix for iOS Safari 100vh issue */
       .intro-video-container, .transition-panel {
-        height: 100vh; /* Use vh but we'll fix it with JS for iOS */
-        height: calc(var(--vh, 1vh) * 100); /* Use CSS variable for height */
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+      }
+    }
+
+    /* SMALL MOBILE DEVICES */
+    @media only screen and (max-width: 480px) {
+      video {
+        /* Even more zoom for small mobile devices */
+        transform: scale(1.5);
       }
     }
 
@@ -219,10 +231,57 @@
       // Update container height to match exactly two screen heights
       container.style.height = `${window.innerHeight * 2}px`;
 
-      // Force video to fill container completely
-      video.style.width = '100%';
-      video.style.height = '100%';
-      video.style.objectFit = 'cover';
+      // Apply appropriate video sizing based on device type
+      applyDeviceSpecificVideoSizing();
+    }
+
+    // Function to apply device-specific video sizing
+    function applyDeviceSpecificVideoSizing() {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      // Get the screen's aspect ratio
+      const screenRatio = windowWidth / windowHeight;
+
+      if (video.videoWidth && video.videoHeight) {
+        // Calculate video aspect ratio
+        const videoRatio = video.videoWidth / video.videoHeight;
+
+        // Base transform scale - will be overridden by CSS media queries but serves as fallback
+        let scaleAmount = 1.3;
+
+        // Determine if we need extra horizontal or vertical scaling based on aspect ratio comparison
+        if (videoRatio > screenRatio) {
+          // Video is wider than screen - need more vertical coverage
+          video.style.height = '100%';
+          video.style.width = 'auto';
+
+          // Extra adjustment for portrait phones
+          if (windowWidth < 480) {
+            scaleAmount = 1.8;
+          }
+        } else {
+          // Video is taller than screen - need more horizontal coverage
+          video.style.width = '100%';
+          video.style.height = 'auto';
+
+          // Extra adjustment for landscape devices
+          if (windowWidth > windowHeight) {
+            scaleAmount = 1.4;
+          }
+        }
+
+        // Apply scale through direct style if needed (fallback, media queries in CSS will take precedence)
+        if (!video.style.transform) {
+          video.style.transform = `scale(${scaleAmount})`;
+        }
+
+        // Make sure video is centered
+        video.style.position = 'absolute';
+        video.style.top = '50%';
+        video.style.left = '50%';
+        video.style.transform = `translate(-50%, -50%) scale(${scaleAmount})`;
+      }
     }
 
     // Run the function on initial load
@@ -262,7 +321,7 @@
         setTimeout(function() {
           redirectToPreview();
         }, 2500);
-      }, 2500); // Increased from 500ms to 1500ms for smoother transition
+      }, 2500);
     }
 
     // Add click event to video container to skip
@@ -273,11 +332,9 @@
       }
     });
 
-    // Ensure video covers entire screen
+    // Ensure video covers entire screen when metadata is loaded
     video.addEventListener('loadedmetadata', function() {
-      video.style.width = '100%';
-      video.style.height = '100%';
-      video.style.objectFit = 'cover';
+      applyDeviceSpecificVideoSizing();
     });
 
     // Play button click handler (kept for backup)
@@ -308,13 +365,18 @@
       document.documentElement.style.height = '100%';
       document.body.style.height = '100%';
 
-      // Force video dimensions on iOS
+      // Special handling for iOS to ensure video fills screen
+      video.style.objectFit = 'cover';
       video.style.position = 'absolute';
-      video.style.top = '0';
-      video.style.left = '0';
       video.style.width = '100%';
       video.style.height = '100%';
-      video.style.objectFit = 'cover';
+
+      // Stronger scale for iOS
+      if (window.innerWidth < 768) {
+        video.style.transform = 'scale(1.7)';
+      } else {
+        video.style.transform = 'scale(1.4)';
+      }
 
       // Call setVHHeight again after a slight delay to ensure proper sizing
       setTimeout(setVHHeight, 300);
@@ -324,6 +386,31 @@
         e.preventDefault();
       }, { passive: false });
     }
+
+    // Additional fix for mobile portrait mode or any device with unusual aspect ratio
+    function checkAndAdjustVideoScaling() {
+      if (window.matchMedia("(orientation: portrait)").matches) {
+        // Portrait mode - may need extra zoom
+        video.style.transform = 'scale(1.8)';
+      }
+
+      // Check for potential black bars by comparing video to screen
+      if (video.videoWidth && video.videoHeight) {
+        const videoRatio = video.videoWidth / video.videoHeight;
+        const screenRatio = window.innerWidth / window.innerHeight;
+
+        // If video and screen ratios are significantly different, add extra scaling
+        const ratioDifference = Math.abs(videoRatio - screenRatio);
+        if (ratioDifference > 0.3) {
+          // Significant difference detected, apply extra zoom
+          let currentScale = parseFloat(getComputedStyle(video).transform.split(',')[3]) || 1;
+          video.style.transform = `scale(${currentScale + 0.2})`;
+        }
+      }
+    }
+
+    // Run additional checks after a short delay to allow other calculations to complete
+    setTimeout(checkAndAdjustVideoScaling, 500);
   });
 </script>
 </body>
