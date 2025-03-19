@@ -50,6 +50,10 @@ html, body {
     padding: 120px 80px 40px;
     max-width: 1400px;
     margin: 0 auto;
+    /* Add initial state for animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease forwards 0.3s;
 }
 
 .info-text-section {
@@ -111,6 +115,18 @@ html, body {
 .publication {
     font-size: 18px;
     margin-bottom: 5px;
+}
+
+/* Animation keyframes (added from main style.css) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Mobile nav background - HIDDEN BY DEFAULT */

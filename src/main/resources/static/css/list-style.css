@@ -20,6 +20,45 @@ html {
     overscroll-behavior: none;
 }
 
+/* Initial state for elements that will fade in */
+.small-logo,
+.hamburger-menu,
+.company-list,
+.header {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Animation for logo and hamburger */
+.small-logo {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.hamburger-menu {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+/* Delayed animation for content */
+.header {
+    animation: fadeIn 1s ease forwards 0.3s;
+}
+
+.company-list {
+    animation: fadeIn 1s ease forwards 0.6s;
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .container {
     position: relative;
     min-height: 100vh;

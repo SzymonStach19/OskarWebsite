@@ -2,9 +2,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get DOM elements
     const hamburgerMenu = document.getElementById('hamburgerMenu');
     const navMenu = document.getElementById('navMenu');
+    const smallLogo = document.getElementById('smallLogo');
+    const header = document.querySelector('.header');
+    const companyList = document.querySelector('.company-list');
     const companyItems = document.querySelectorAll('.company-item');
     const headerItems = document.querySelectorAll('.header-item');
     const headerItemsContainer = document.querySelector('.header-items');
+
+    // Set initial opacity to 0 for elements that will be animated
+    // This ensures they're hidden even if CSS hasn't loaded yet
+    if (smallLogo) smallLogo.style.opacity = '0';
+    if (hamburgerMenu) hamburgerMenu.style.opacity = '0';
+    if (header) header.style.opacity = '0';
+    if (companyList) companyList.style.opacity = '0';
+
+    // Trigger animations after a short delay to ensure DOM is ready
+    setTimeout(() => {
+        if (smallLogo) smallLogo.style.opacity = '';
+        if (hamburgerMenu) hamburgerMenu.style.opacity = '';
+        if (header) header.style.opacity = '';
+        if (companyList) companyList.style.opacity = '';
+    }, 100);
 
     // Apply appropriate menu positioning based on device
     applyMenuPositioning();
@@ -210,16 +228,24 @@ document.addEventListener('DOMContentLoaded', function() {
             hamburgerMenu.style.left = '40px';
             hamburgerMenu.style.top = 'auto';
             hamburgerMenu.style.right = 'auto';
+            hamburgerMenu.style.padding = '15px';
+            hamburgerMenu.style.margin = '-15px';
         }
     }
 
     function toggleMenu() {
         const hamburgerMenu = document.getElementById('hamburgerMenu');
         const navMenu = document.getElementById('navMenu');
+        const smallLogo = document.getElementById('smallLogo');
 
         if (!hamburgerMenu || !navMenu) return;
 
         hamburgerMenu.classList.toggle('active');
         navMenu.classList.toggle('active');
+
+        // Toggle the logo color when menu is active
+        if (smallLogo) {
+            smallLogo.classList.toggle('active-logo', navMenu.classList.contains('active'));
+        }
     }
 });
