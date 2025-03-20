@@ -96,6 +96,8 @@ html, body {
 .contact-email {
     font-size: 18px;
     margin-bottom: 5px;
+    text-decoration: none;
+    color: white;
 }
 
 .info-link {
