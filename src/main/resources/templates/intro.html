@@ -44,6 +44,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      touch-action: none; /* Disable default touch actions for swipe implementation */
     }
 
     /* Second panel with text */
@@ -67,15 +68,27 @@
       padding: 0 20px;
     }
 
-    /* Video element base styling */
-    video {
+    /* Vimeo iframe styling */
+    .vimeo-wrapper {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      z-index: 1;
+      pointer-events: none; /* This allows clicks to pass through to container */
       background: #000;
-      /* Extra zoom effect - baseline for all devices */
-      transform: scale(1.1);
+    }
+
+    .vimeo-wrapper iframe {
+      width: 100vw;
+      height: 56.25vw; /* 16:9 aspect ratio */
+      min-height: 100vh;
+      min-width: 177.78vh; /* 16:9 aspect ratio */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1.1);
     }
 
     /* Play button styling */
@@ -109,7 +122,7 @@
       transition: all 3s ease;
     }
 
-    /* Updated style for the name text in top left corner */
+    /* Updated style for the name text in top left corner with animation */
     .name-text {
       position: absolute;
       top: 30px;
@@ -123,21 +136,24 @@
       letter-spacing: -1px;
       text-shadow: 1px 1px 3px rgba(120, 120, 120, 0.7);
       text-transform: uppercase;
+      opacity: 0; /* Start invisible */
+      transform: translateY(30px); /* Start slightly below final position */
+      transition: opacity 1.5s ease, transform 1.5s ease; /* Smooth appear animation */
     }
 
     /* DESKTOP SPECIFIC STYLES */
     @media only screen and (min-width: 1025px) {
-      video {
+      .vimeo-wrapper iframe {
         /* Larger zoom for desktop */
-        transform: scale(1.4);
+        transform: translate(-50%, -50%) scale(1.4);
       }
     }
 
     /* MEDIUM SIZED DEVICES (tablets, small laptops) */
     @media only screen and (min-width: 769px) and (max-width: 1024px) {
-      video {
+      .vimeo-wrapper iframe {
         /* Medium zoom for medium devices */
-        transform: scale(1.4);
+        transform: translate(-50%, -50%) scale(1.4);
       }
     }
 
@@ -159,9 +175,9 @@
         font-size: 20px;
       }
 
-      video {
+      .vimeo-wrapper iframe {
         /* Extra zoom for mobile to ensure fullscreen */
-        transform: scale(1.4);
+        transform: translate(-50%, -50%) scale(1.4);
       }
 
       /* Fix for iOS Safari 100vh issue */
@@ -173,9 +189,9 @@
 
     /* SMALL MOBILE DEVICES */
     @media only screen and (max-width: 480px) {
-      video {
+      .vimeo-wrapper iframe {
         /* Even more zoom for small mobile devices */
-        transform: scale(1.5);
+        transform: translate(-50%, -50%) scale(1.5);
       }
     }
 
@@ -191,12 +207,13 @@
   <!-- Video panel -->
   <div id="videoContainer" class="intro-video-container">
     <!-- Added name text in top left corner -->
-    <div class="name-text">
+    <div id="nameText" class="name-text">
       OSKAR<br>SAWICKI
     </div>
-    <video id="introVideo" playsinline autoplay muted>
-      <source src="/videos/intro.mp4" type="video/mp4">
-    </video>
+    <!-- Vimeo iframe replacement -->
+    <div class="vimeo-wrapper">
+      <iframe id="vimeoPlayer" src="https://player.vimeo.com/video/916144478?background=1&autoplay=1&loop=0&byline=0&title=0&muted=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
     <button id="playButton" class="play-button"></button>
   </div>
 
@@ -211,11 +228,42 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById('mainContainer');
-    const video = document.getElementById('introVideo');
+    const vimeoPlayer = document.getElementById('vimeoPlayer');
     const playButton = document.getElementById('playButton');
     const creatorText = document.getElementById('creatorText');
     const transitionPanel = document.getElementById('transitionPanel');
     const videoContainer = document.getElementById('videoContainer');
+    const nameText = document.getElementById('nameText');
+
+    // Initialize swipe variables
+    let touchStartY = 0;
+    let touchEndY = 0;
+    const swipeThreshold = 100; // Minimum distance for swipe to register
+
+    // Trigger name text animation after a short delay
+    setTimeout(function() {
+      nameText.style.opacity = '1';
+      nameText.style.transform = 'translateY(0)';
+    }, 800);
+
+    // Load Vimeo Player API
+    let vimeoPlayerAPI;
+    const script = document.createElement('script');
+    script.src = "https://player.vimeo.com/api/player.js";
+    document.body.appendChild(script);
+
+    script.onload = function() {
+      // Initialize Vimeo player
+      vimeoPlayerAPI = new Vimeo.Player(vimeoPlayer);
+
+      // Hide play button initially since video will autoplay
+      playButton.style.display = 'none';
+
+      // Listen for video end
+      vimeoPlayerAPI.on('ended', function() {
+        skipToAnimation();
+      });
+    };
 
     // Fix for iOS Safari 100vh issue - IMPROVED VERSION
     function setVHHeight() {
@@ -230,58 +278,6 @@
 
       // Update container height to match exactly two screen heights
       container.style.height = `${window.innerHeight * 2}px`;
-
-      // Apply appropriate video sizing based on device type
-      applyDeviceSpecificVideoSizing();
-    }
-
-    // Function to apply device-specific video sizing
-    function applyDeviceSpecificVideoSizing() {
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-
-      // Get the screen's aspect ratio
-      const screenRatio = windowWidth / windowHeight;
-
-      if (video.videoWidth && video.videoHeight) {
-        // Calculate video aspect ratio
-        const videoRatio = video.videoWidth / video.videoHeight;
-
-        // Base transform scale - will be overridden by CSS media queries but serves as fallback
-        let scaleAmount = 1.3;
-
-        // Determine if we need extra horizontal or vertical scaling based on aspect ratio comparison
-        if (videoRatio > screenRatio) {
-          // Video is wider than screen - need more vertical coverage
-          video.style.height = '100%';
-          video.style.width = 'auto';
-
-          // Extra adjustment for portrait phones
-          if (windowWidth < 480) {
-            scaleAmount = 1.8;
-          }
-        } else {
-          // Video is taller than screen - need more horizontal coverage
-          video.style.width = '100%';
-          video.style.height = 'auto';
-
-          // Extra adjustment for landscape devices
-          if (windowWidth > windowHeight) {
-            scaleAmount = 1.4;
-          }
-        }
-
-        // Apply scale through direct style if needed (fallback, media queries in CSS will take precedence)
-        if (!video.style.transform) {
-          video.style.transform = `scale(${scaleAmount})`;
-        }
-
-        // Make sure video is centered
-        video.style.position = 'absolute';
-        video.style.top = '50%';
-        video.style.left = '50%';
-        video.style.transform = `translate(-50%, -50%) scale(${scaleAmount})`;
-      }
     }
 
     // Run the function on initial load
@@ -297,9 +293,6 @@
       setTimeout(setVHHeight, 100);
     });
 
-    // Hide play button initially since video will autoplay
-    playButton.style.display = 'none';
-
     // Function to redirect to the preview page
     function redirectToPreview() {
       window.location.href = '/preview';
@@ -307,8 +300,10 @@
 
     // Function to handle skipping to animation
     function skipToAnimation() {
-      // Pause the video
-      video.pause();
+      // Pause the Vimeo video if API is loaded
+      if (vimeoPlayerAPI) {
+        vimeoPlayerAPI.pause();
+      }
 
       // Scroll to the transition panel - using smooth scrolling
       transitionPanel.scrollIntoView({ behavior: 'smooth' });
@@ -324,37 +319,50 @@
       }, 2500);
     }
 
-    // Add click event to video container to skip
-    videoContainer.addEventListener('click', function(e) {
-      // Prevent click on play button from triggering skip
-      if (e.target !== playButton) {
-        skipToAnimation();
-      }
-    });
+    // Check if device is mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-    // Ensure video covers entire screen when metadata is loaded
-    video.addEventListener('loadedmetadata', function() {
-      applyDeviceSpecificVideoSizing();
-    });
+    if (isMobile) {
+      // For mobile devices, use swipe instead of tap
+      videoContainer.addEventListener('touchstart', function(e) {
+        touchStartY = e.changedTouches[0].screenY;
+      }, false);
+
+      videoContainer.addEventListener('touchend', function(e) {
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+      }, false);
+
+      // Handle the swipe gesture
+      function handleSwipe() {
+        if (touchStartY - touchEndY > swipeThreshold) {
+          // Swipe up detected, skip to animation
+          skipToAnimation();
+        }
+      }
+    } else {
+      // For desktop, keep click behavior
+      videoContainer.addEventListener('click', function(e) {
+        // Prevent click on play button from triggering skip
+        if (e.target !== playButton) {
+          skipToAnimation();
+        }
+      });
+    }
 
     // Play button click handler (kept for backup)
     playButton.addEventListener('click', function(e) {
-      // Try to unmute and play video
-      video.muted = false;
-      video.play().then(function() {
-        // Hide play button after video starts
+      // Try to unmute Vimeo video if API is loaded
+      if (vimeoPlayerAPI) {
+        vimeoPlayerAPI.setVolume(1); // Unmute
+        vimeoPlayerAPI.play(); // Ensure it's playing
+
+        // Hide play button
         playButton.style.display = 'none';
-      }).catch(function(error) {
-        console.error("Video play failed:", error);
-      });
+      }
 
       // Stop event propagation to prevent the container click from firing
       e.stopPropagation();
-    });
-
-    // Video ended event handler
-    video.addEventListener('ended', function() {
-      skipToAnimation();
     });
 
     // Detect if device is iOS
@@ -365,19 +373,6 @@
       document.documentElement.style.height = '100%';
       document.body.style.height = '100%';
 
-      // Special handling for iOS to ensure video fills screen
-      video.style.objectFit = 'cover';
-      video.style.position = 'absolute';
-      video.style.width = '100%';
-      video.style.height = '100%';
-
-      // Stronger scale for iOS
-      if (window.innerWidth < 768) {
-        video.style.transform = 'scale(1.7)';
-      } else {
-        video.style.transform = 'scale(1.4)';
-      }
-
       // Call setVHHeight again after a slight delay to ensure proper sizing
       setTimeout(setVHHeight, 300);
 
@@ -386,31 +381,6 @@
         e.preventDefault();
       }, { passive: false });
     }
-
-    // Additional fix for mobile portrait mode or any device with unusual aspect ratio
-    function checkAndAdjustVideoScaling() {
-      if (window.matchMedia("(orientation: portrait)").matches) {
-        // Portrait mode - may need extra zoom
-        video.style.transform = 'scale(1.8)';
-      }
-
-      // Check for potential black bars by comparing video to screen
-      if (video.videoWidth && video.videoHeight) {
-        const videoRatio = video.videoWidth / video.videoHeight;
-        const screenRatio = window.innerWidth / window.innerHeight;
-
-        // If video and screen ratios are significantly different, add extra scaling
-        const ratioDifference = Math.abs(videoRatio - screenRatio);
-        if (ratioDifference > 0.3) {
-          // Significant difference detected, apply extra zoom
-          let currentScale = parseFloat(getComputedStyle(video).transform.split(',')[3]) || 1;
-          video.style.transform = `scale(${currentScale + 0.2})`;
-        }
-      }
-    }
-
-    // Run additional checks after a short delay to allow other calculations to complete
-    setTimeout(checkAndAdjustVideoScaling, 500);
   });
 </script>
 </body>
