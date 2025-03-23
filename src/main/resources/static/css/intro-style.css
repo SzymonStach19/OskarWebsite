@@ -1,0 +1,200 @@
+/* Reset everything to ensure no default margins or padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Define the --vh custom property with a default value */
+:root {
+    --vh: 1vh;
+}
+
+/* HTML and Body need to be set to full dimensions */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000;
+    position: fixed; /* Prevent bouncing/scrolling on mobile */
+}
+
+/* Main container for two-panel layout */
+.container {
+    position: relative;
+    width: 100vw;
+    height: 200vh; /* Two screen heights */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Video panel */
+.intro-video-container {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    touch-action: none; /* Disable default touch actions for swipe implementation */
+}
+
+/* Second panel with text */
+.transition-panel {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.creator-text {
+    font-family: 'Courier New', monospace;
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 2s ease;
+    padding: 0 20px;
+}
+
+/* Vimeo iframe styling */
+.vimeo-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none; /* This allows clicks to pass through to container */
+    background: #000;
+}
+
+.vimeo-wrapper iframe {
+    width: 100vw;
+    height: 56.25vw; /* 16:9 aspect ratio */
+    min-height: 100vh;
+    min-width: 177.78vh; /* 16:9 aspect ratio */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Play button styling */
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-button::before {
+    content: "▶";
+}
+
+/* Add this to make scroll-behavior slower */
+html {
+    --scroll-behavior: smooth;
+    scroll-behavior: smooth;
+    transition: all 3s ease;
+}
+
+/* Updated style for the name text in top left corner with animation */
+.name-text {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    color: white;
+    font-size: 128px;
+    font-weight: 900;
+    z-index: 3;
+    line-height: 0.9;
+    letter-spacing: -1px;
+    text-shadow: 1px 1px 3px rgba(120, 120, 120, 0.7);
+    text-transform: uppercase;
+    opacity: 0; /* Start invisible */
+    transform: translateY(30px); /* Start slightly below final position */
+    transition: opacity 1.5s ease, transform 1.5s ease; /* Smooth appear animation */
+}
+
+/* DESKTOP SPECIFIC STYLES */
+@media only screen and (min-width: 1025px) {
+    .vimeo-wrapper iframe {
+        /* Larger zoom for desktop */
+        transform: translate(-50%, -50%) scale(1.4);
+    }
+}
+
+/* MEDIUM SIZED DEVICES (tablets, small laptops) */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .vimeo-wrapper iframe {
+        /* Medium zoom for medium devices */
+        transform: translate(-50%, -50%) scale(1.4);
+    }
+}
+
+/* MOBILE SPECIFIC STYLES */
+@media only screen and (max-width: 768px) {
+    .name-text {
+        font-size: 64px;
+        top: 20px;
+        left: 20px;
+    }
+
+    .creator-text {
+        font-size: 24px;
+    }
+
+    .play-button {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+
+    .vimeo-wrapper iframe {
+        /* Extra zoom for mobile to ensure fullscreen */
+        transform: translate(-50%, -50%) scale(1.4);
+    }
+
+    /* Fix for iOS Safari 100vh issue */
+    .intro-video-container, .transition-panel {
+        height: 100vh; /* Fallback */
+        height: calc(var(--vh) * 100); /* Use custom property */
+    }
+}
+
+/* SMALL MOBILE DEVICES */
+@media only screen and (max-width: 480px) {
+    .vimeo-wrapper iframe {
+        /* Even more zoom for small mobile devices */
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+/* Prevent any possible empty spaces due to margins */
+body:before, body:after {
+    content: "";
+    display: table;
+}
